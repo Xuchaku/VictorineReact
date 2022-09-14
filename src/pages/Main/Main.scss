@@ -1,0 +1,26 @@
+.Main {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-areas:
+    "header header header"
+    "sidebar main main"
+    "footer footer footer ";
+  grid-template-columns: minmax(100px, 1fr) 4fr;
+  grid-template-rows: 80px minmax(600px, auto) 200px;
+}
+.Main > div {
+  background-color: #ccc;
+}
+.Main > div:nth-child(1) {
+  grid-area: header;
+}
+.Main > div:nth-child(2) {
+  grid-area: sidebar;
+  align-self: start;
+}
+.Main > div:nth-child(3) {
+  grid-area: main;
+}
+.Main > div:nth-child(4) {
+  grid-area: footer;
+}
