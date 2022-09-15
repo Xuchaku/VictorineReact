@@ -8,9 +8,7 @@
   grid-template-columns: minmax(100px, 1fr) 4fr;
   grid-template-rows: 80px minmax(600px, auto) 200px;
 }
-.Main > div {
-  background-color: #ccc;
-}
+
 .Main > div:nth-child(1) {
   grid-area: header;
 }

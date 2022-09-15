@@ -1,0 +1,14 @@
+.Navigation {
+  background-color: red;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+.Navigation > div {
+  padding: 10px 20px;
+  margin: 0 15px;
+}
+.Navigation a {
+  text-decoration: none;
+}
