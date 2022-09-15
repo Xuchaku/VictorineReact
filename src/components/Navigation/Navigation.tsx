@@ -6,14 +6,22 @@ import "./Navigation.scss";
 type NavigationProps = {
   links: Link[];
 };
+const activeClassName = "active";
 
-const Navigation: FC<NavigationProps> = function ({ links, ...props }) {
+const Navigation: FC<NavigationProps> = ({ links, ...props }) => {
   return (
     <div className="Navigation">
       {links.map((link: Link, key: number) => {
         return (
           <div key={key}>
-            <NavLink to={link.href}>{link.text}</NavLink>
+            <NavLink
+              to={link.href}
+              className={({ isActive }) =>
+                isActive ? activeClassName : undefined
+              }
+            >
+              {link.text}
+            </NavLink>
           </div>
         );
       })}

@@ -1,14 +1,22 @@
+@import "../../Global/style/Global.scss";
 .Navigation {
-  background-color: red;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: center;
+  background-color: $background-structure;
+  @extend %structure;
 }
 .Navigation > div {
-  padding: 10px 20px;
+  padding: 20px 20px;
   margin: 0 15px;
 }
 .Navigation a {
   text-decoration: none;
+  color: $font-default-color;
+  font-family: $font-family-major;
+  font-size: $font-size-major;
+}
+.Navigation a.active {
+  @extend %font-active;
 }
