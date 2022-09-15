@@ -2,6 +2,7 @@
 .Sidebar {
   background-color: $background-structure;
   display: flex;
+  color: $font-default-color;
   flex-direction: column;
   @extend %structure;
 }

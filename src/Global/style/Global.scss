@@ -7,20 +7,6 @@
   src: url("./../../assets/fonts/SourceSansPro-Regular.ttf");
 }
 
-//background
-$background-body: rgb(24, 25, 29);
-$background-structure: rgb(33, 34, 38);
-$shadow-structure: rgba(7, 177, 202, 0.5);
-%structure {
-  border-radius: 6px;
-  -webkit-box-shadow: 0px 0px 8px 2px $shadow-structure;
-  -moz-box-shadow: 0px 0px 8px 2px $shadow-structure;
-  box-shadow: 0px 0px 8px 2px $shadow-structure;
-  background: -webkit-linear-gradient(180deg, rgb(33, 34, 38), rgb(0, 0, 0));
-  background: -moz-linear-gradient(180deg, rgb(33, 34, 38), rgb(0, 0, 0));
-  background: linear-gradient(180deg, rgb(33, 34, 38), rgb(0, 0, 0));
-}
-
 //font
 $font-default-color: rgb(195, 196, 200);
 $font-active-color: #07b1ca;
@@ -34,4 +20,16 @@ $font-size-major: 24px;
   color: $font-active-color;
   transition: all 0.2s;
   text-shadow: 0px 0px 1px $font-active-color;
+}
+
+//background
+$background-body: rgb(24, 25, 29);
+$background-structure: rgb(33, 34, 38);
+$shadow-structure: rgba(7, 177, 202, 0.5);
+%structure {
+  border-radius: 6px;
+  //   -webkit-box-shadow: 0px 0px 8px 2px $shadow-structure;
+  //   -moz-box-shadow: 0px 0px 8px 2px $shadow-structure;
+  //   box-shadow: 0px 0px 8px 2px $shadow-structure;
+  color: $font-default-color;
 }

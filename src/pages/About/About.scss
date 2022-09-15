@@ -1,0 +1,7 @@
+@import "./../../Global/style/Global.scss";
+.About {
+  background-color: $background-structure;
+  display: flex;
+  flex-direction: column;
+  @extend %structure;
+}
