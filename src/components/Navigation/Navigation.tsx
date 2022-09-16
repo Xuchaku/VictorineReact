@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { NavLink } from "react-router-dom";
 import Link from "./../../types/Link/Link";
 import "./Navigation.scss";
+import EnterUser from "./../EnterUser/EnterUser";
 
 type NavigationProps = {
   links: Link[];
@@ -25,6 +26,7 @@ const Navigation: FC<NavigationProps> = ({ links, ...props }) => {
           </div>
         );
       })}
+      <EnterUser></EnterUser>
     </div>
   );
 };

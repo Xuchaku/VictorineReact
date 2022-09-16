@@ -30,9 +30,6 @@ $background-structure: rgb(33, 34, 38);
 $shadow-structure: rgba(7, 177, 202, 0.5);
 %structure {
   border-radius: 6px;
-  //   -webkit-box-shadow: 0px 0px 8px 2px $shadow-structure;
-  //   -moz-box-shadow: 0px 0px 8px 2px $shadow-structure;
-  //   box-shadow: 0px 0px 8px 2px $shadow-structure;
   color: $font-default-color;
 }
 
@@ -43,8 +40,9 @@ $shadow-structure: rgba(7, 177, 202, 0.5);
 }
 
 //UI
+$border-purple: #6357a9;
 %button {
-  background-color: #6357a9;
+  background-color: $border-purple;
   padding: 10px 15px;
   border: none;
   border-radius: 24px;

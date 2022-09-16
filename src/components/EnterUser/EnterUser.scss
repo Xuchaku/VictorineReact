@@ -1,0 +1,66 @@
+@import "./../../Global/style/Global.scss";
+.EnterUser {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  span {
+    padding: 0 10px;
+    font-size: $font-size-header;
+  }
+  a {
+    font-size: $font-size-header;
+  }
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    border: 2px solid $border-purple;
+  }
+}
+.User {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  img {
+    margin-right: 20px;
+  }
+}
+.MiniMenu {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  align-items: center;
+  &:hover div {
+    display: flex;
+  }
+  &:hover p:after {
+    border-color: $border-purple transparent transparent transparent;
+  }
+  p {
+    cursor: pointer;
+  }
+  p:after {
+    content: "";
+    display: inline-block;
+
+    border: 6px solid;
+    margin-left: 10px;
+    margin-top: 5px;
+    border-color: $font-default-color transparent transparent transparent;
+  }
+  div {
+    display: none;
+    position: absolute;
+    top: 40px;
+    left: -20px;
+    border-radius: 6px;
+    border: 2px solid $border-purple;
+    background-color: $background-structure;
+    flex-direction: column;
+    a {
+      font-family: $font-family-major;
+      padding: 5px 20px;
+    }
+  }
+}
