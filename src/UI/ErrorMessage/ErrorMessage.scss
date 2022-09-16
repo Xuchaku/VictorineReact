@@ -1,0 +1,13 @@
+@import "./../../Global/style/Global.scss";
+.ErrorMessage {
+  display: flex;
+  flex-direction: column;
+  color: red;
+  font-family: "Roboto";
+  p {
+    text-align: left;
+  }
+}
+i {
+  font-size: $font-size-minor;
+}

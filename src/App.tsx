@@ -9,6 +9,7 @@ import Menu from "./pages/Menu/Menu";
 import User from "./pages/User/User";
 import Error from "./pages/Error/Error";
 import About from "./pages/About/About";
+import Registration from "./pages/Registration/Registration";
 
 function App() {
   return (
@@ -20,6 +21,10 @@ function App() {
       </Route>
       <Route path="user" element={<User></User>}></Route>
       <Route path="login" element={<Login></Login>}></Route>
+      <Route
+        path="registration"
+        element={<Registration></Registration>}
+      ></Route>
       <Route path="*" element={<Error></Error>}></Route>
     </Routes>
   );

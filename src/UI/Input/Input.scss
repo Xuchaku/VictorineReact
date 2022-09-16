@@ -1,0 +1,5 @@
+@import "./../../Global/style/Global.scss";
+.Input {
+  outline: none;
+  @extend %input;
+}

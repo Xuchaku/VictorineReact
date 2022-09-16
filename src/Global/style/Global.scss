@@ -9,12 +9,14 @@
 
 //font
 $font-default-color: rgb(195, 196, 200);
+$font-ui-color: white;
 $font-active-color: #07b1ca;
 
 $font-family-major: "Sans Narrow";
 $font-family-header: "Source Sans Pro";
 $font-size-header: 18px;
 $font-size-major: 24px;
+$font-size-minor: 10px;
 
 %font-active {
   color: $font-active-color;
@@ -32,4 +34,30 @@ $shadow-structure: rgba(7, 177, 202, 0.5);
   //   -moz-box-shadow: 0px 0px 8px 2px $shadow-structure;
   //   box-shadow: 0px 0px 8px 2px $shadow-structure;
   color: $font-default-color;
+}
+
+%error {
+  -webkit-box-shadow: 0px 0px 8px 2px red;
+  -moz-box-shadow: 0px 0px 8px 2px red;
+  box-shadow: 0px 0px 8px 2px red;
+}
+
+//UI
+%button {
+  background-color: #6357a9;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 24px;
+  color: $font-ui-color;
+  font-size: $font-size-major;
+  cursor: pointer;
+  font-family: $font-family-header;
+}
+%input {
+  border-radius: 24px;
+  border: 1px solid #26272b;
+
+  padding: 15px 20px;
+  color: $font-ui-color;
+  background-color: $background-structure;
 }
