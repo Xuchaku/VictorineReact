@@ -1,0 +1,33 @@
+@import "./../../Global/style/Global.scss";
+.Login {
+  display: flex;
+  margin: 100px auto;
+  flex-direction: column;
+  background-color: $background-structure;
+  @extend %structure;
+  width: 400px;
+  padding: 25px 20px;
+  &.error {
+    @extend %error;
+  }
+  p {
+    text-align: center;
+    font-size: $font-size-major;
+    font-family: $font-family-major;
+  }
+}
+.Login form {
+  display: flex;
+  flex-direction: column;
+  button {
+    width: 200px;
+  }
+  input {
+    margin-bottom: 12px;
+  }
+  label {
+    margin-bottom: 12px;
+    font-size: $font-size-header;
+    font-family: $font-family-header;
+  }
+}
