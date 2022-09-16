@@ -1,27 +1,21 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./About.scss";
 const About = () => {
   return (
     <div className="About">
-      About Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae
-      voluptatibus commodi, deleniti minus voluptas, unde totam ea voluptates
-      porro eveniet magni deserunt voluptatum, cum vel rem culpa saepe quis?
-      OditAbout Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-      Recusandae voluptatibus commodi, deleniti minus voluptas, unde totam ea
-      voluptates porro eveniet magni deserunt voluptatum, cum vel rem culpa
-      saepe quis? Odit!About Lorem ipsum dolor sit amet, consectetur adipisicing
-      elit. Recusandae voluptatibus commodi, deleniti minus voluptas, unde totam
-      ea voluptates porro eveniet magni deserunt voluptatum, cum vel rem culpa
-      saepe quis? Odit!About Lorem ipsum dolor sit amet, consectetur adipisicing
-      elit. Recusandae voluptatibus commodi, deleniti minus voluptas, unde totam
-      ea voluptates porro eveniet magni deserunt voluptatum, cum vel rem culpa
-      saepe quis? Odit!About Lorem ipsum dolor sit amet, consectetur adipisicing
-      elit. Recusandae voluptatibus commodi, deleniti minus voluptas, unde totam
-      ea voluptates porro eveniet magni deserunt voluptatum, cum vel rem culpa
-      saepe quis? Odit!About Lorem ipsum dolor sit amet, consectetur adipisicing
-      elit. Recusandae voluptatibus commodi, deleniti minus voluptas, unde totam
-      ea voluptates porro eveniet magni deserunt voluptatum, cum vel rem culpa
-      saepe quis? Odit!!
+      <span>I know that!</span>
+      <img></img>
+      <p>Проверь себя на знание фильмов, игр, сериалов</p>
+      <p>Участвуй с друзьями, покажи свою скорость!</p>
+      <p>1 Фото, 10 секунд на размышление</p>
+      <h1>
+        <span>Who will win?</span>
+      </h1>
+      <p>
+        <Link to="/menu">Меню</Link>
+        <Link to="/game">Играть</Link>
+      </p>
     </div>
   );
 };

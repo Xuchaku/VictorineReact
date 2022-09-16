@@ -3,3 +3,6 @@
   outline: none;
   @extend %input;
 }
+.Input:focus {
+  border: 1px solid $font-default-color;
+}

@@ -6,17 +6,22 @@
   font-family: "Source Sans Pro";
   src: url("./../../assets/fonts/SourceSansPro-Regular.ttf");
 }
-
+@font-face {
+  font-family: "Alfa Slab One";
+  src: url("./../../assets/fonts/AlfaSlabOne-Regular.ttf");
+}
 //font
 $font-default-color: rgb(195, 196, 200);
 $font-ui-color: white;
 $font-active-color: #07b1ca;
 
+$font-family-special: "Alfa Slab One";
 $font-family-major: "Sans Narrow";
 $font-family-header: "Source Sans Pro";
 $font-size-header: 18px;
 $font-size-major: 24px;
 $font-size-minor: 10px;
+$font-size-special: 96px;
 
 %font-active {
   color: $font-active-color;
