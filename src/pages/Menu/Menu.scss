@@ -3,5 +3,22 @@
   background-color: $background-structure;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   @extend %structure;
+  & > p {
+    font-size: 48px;
+    font-family: $font-family-header;
+  }
+  & > div {
+    margin: auto;
+    button {
+      margin-left: 40px;
+      padding: 10px 50px;
+      transition: 0.2s;
+    }
+    button:active {
+      transform: scale(1.1);
+    }
+  }
 }
