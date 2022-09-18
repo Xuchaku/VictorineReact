@@ -7,6 +7,8 @@ import Settings from "../../types/Settings/Settings";
 import Input from "../../UI/Input/Input";
 import { isValidNumeric } from "../../utils";
 import { generateRandomColor } from "../../utils";
+import ErrorMessage from "../../UI/ErrorMessage/ErrorMessage";
+import { TOTAL_STEP_MENU } from "../../constants/constants";
 
 const Menu = () => {
   const [settings, setSettings] = useState<Settings>({
@@ -16,7 +18,8 @@ const Menu = () => {
   });
   const [isError, setIsError] = useState(false);
   const [step, setStep] = useState(0);
-
+  const LEFT_EDGE = 2,
+    RIGHT_EDGE = 6;
   const stepHeader =
     step == 0
       ? "Выберите категорию"
@@ -27,8 +30,10 @@ const Menu = () => {
       : null;
 
   function settingsClickHandler(field: string, data: string | boolean) {
-    setSettings({ ...settings, [field]: data });
-    setStep(step + 1);
+    return function () {
+      setSettings({ ...settings, [field]: data });
+      setStep(step + 1);
+    };
   }
   function settingsChangeHandler(event: ChangeEvent<HTMLInputElement>) {
     const userInput = event.target.value;
@@ -36,8 +41,9 @@ const Menu = () => {
   }
   function settingsSubmitHandler() {
     const { players } = settings;
-    const isVaild = isValidNumeric(players, 2, 6);
+    const isVaild = isValidNumeric(players, LEFT_EDGE, RIGHT_EDGE);
     if (isVaild) {
+      setIsError(false);
       setStep(step + 1);
     } else {
       setIsError(true);
@@ -47,42 +53,39 @@ const Menu = () => {
   return (
     <div className="Menu">
       <p>{stepHeader}</p>
-      <div>
-        {step == 0 &&
-          Categories.map((categorie: Categorie) => {
-            return (
-              <Button
-                background={generateRandomColor()}
-                onClick={() => {
-                  settingsClickHandler("categorie", categorie.type);
-                }}
-              >
-                {categorie.text}
-              </Button>
-            );
-          })}
-        {step == 1 && (
+      <div className="Action">
+        {step == 0 && (
           <div>
+            {Categories.map((categorie: Categorie) => {
+              return (
+                <Button
+                  background={generateRandomColor()}
+                  onClick={settingsClickHandler("categorie", categorie.type)}
+                >
+                  {categorie.text}
+                </Button>
+              );
+            })}
+          </div>
+        )}
+        {step == 1 && (
+          <div className="Action">
             <Button
               background={"#46F25D"}
-              onClick={() => {
-                settingsClickHandler("mode", true);
-              }}
+              onClick={settingsClickHandler("mode", true)}
             >
               Публичный
             </Button>
             <Button
               background={"#405AF7"}
-              onClick={() => {
-                settingsClickHandler("mode", false);
-              }}
+              onClick={settingsClickHandler("mode", false)}
             >
               Приватный
             </Button>
           </div>
         )}
         {step == 2 && (
-          <div>
+          <div className="Action">
             <Input
               onChange={settingsChangeHandler}
               type="text"
@@ -93,8 +96,19 @@ const Menu = () => {
             <Button onClick={settingsSubmitHandler}>Создать</Button>
           </div>
         )}
+        {isError && (
+          <ErrorMessage
+            errors={[
+              "Проверьте правильность ввода",
+              "В поле должно быть число от 2 до 6",
+              "Не должно быть запрещенных символов",
+            ]}
+          ></ErrorMessage>
+        )}
       </div>
-      <span>{step} / 3</span>
+      <span>
+        {step} / {TOTAL_STEP_MENU}
+      </span>
     </div>
   );
 };

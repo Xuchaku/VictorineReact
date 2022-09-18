@@ -1,0 +1,46 @@
+@import "./../../Global/style/Global.scss";
+.UserProfile {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  width: 600px;
+  padding: 20px 30px;
+  margin: auto;
+  background-color: $background-structure;
+  @extend %structure;
+}
+.Content {
+  display: flex;
+  flex-direction: column;
+  p {
+    margin-top: 5px;
+    font-size: 14px;
+    font-family: $font-family-simple;
+  }
+  img {
+    width: 200px;
+    height: 200px;
+    @extend %structure;
+    border: 2px solid $border-purple;
+  }
+  h2 {
+    font-size: $font-size-major;
+    font-family: $font-family-major;
+  }
+  a {
+    text-decoration: none;
+    font-size: $font-size-header;
+    font-family: $font-family-header;
+    color: $font-active-color;
+  }
+}
+.Actions {
+  margin: auto 0;
+  display: flex;
+  flex-direction: row;
+
+  button {
+    margin-right: 10px;
+  }
+}

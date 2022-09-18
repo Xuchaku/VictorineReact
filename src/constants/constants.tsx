@@ -11,3 +11,4 @@ export const Categories: Categorie[] = [
   { type: "serials", text: "Сериалы" },
   { type: "akters", text: "Актеры" },
 ];
+export const TOTAL_STEP_MENU = 3;
