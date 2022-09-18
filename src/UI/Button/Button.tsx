@@ -1,8 +1,8 @@
-import React, { FC, MouseEvent } from "react";
+import React, { FC, MouseEvent, ReactNode } from "react";
 import "./Button.scss";
 
 type ButtonProps = {
-  children: string;
+  children: string | ReactNode;
   background?: string;
   onClick: () => void;
 };

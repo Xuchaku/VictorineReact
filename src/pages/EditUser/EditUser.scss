@@ -1,0 +1,47 @@
+@import "./../../Global/style/Global.scss";
+.EditUser {
+  width: auto;
+  margin: auto;
+  display: flex;
+  width: 500px;
+  flex-direction: column;
+  padding: 20px 30px;
+  background-color: $background-structure;
+  label {
+    background-color: $border-purple;
+    @extend %button;
+  }
+  button {
+    margin: 15px 0;
+    margin-right: 20px;
+  }
+  h2 {
+    font-family: $font-family-header;
+    font-size: $font-size-header;
+    margin-bottom: 15px;
+  }
+  @extend %structure;
+  .Avatar {
+    margin-bottom: 30px;
+    .Imgs img:last-child {
+      @extend %img-structure-minor;
+    }
+    img {
+      @extend %img-structure-main;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+  }
+  .MainInfo {
+    & > div {
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 15px;
+      flex-wrap: nowrap;
+      align-items: center;
+      h2 {
+        width: 200px;
+      }
+    }
+  }
+}

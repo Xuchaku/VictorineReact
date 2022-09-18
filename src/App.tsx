@@ -8,6 +8,7 @@ import Login from "./pages/Login/Login";
 import Main from "./pages/Main/Main";
 import Menu from "./pages/Menu/Menu";
 import User from "./pages/User/User";
+import EditUser from "./pages/EditUser/EditUser";
 import Error from "./pages/Error/Error";
 import About from "./pages/About/About";
 import Registration from "./pages/Registration/Registration";
@@ -27,6 +28,7 @@ function App() {
         </Route>
         <Route path="user" element={<User></User>}></Route>
         <Route path="login" element={<Login></Login>}></Route>
+        <Route path="edituser" element={<EditUser></EditUser>}></Route>
         <Route
           path="registration"
           element={<Registration></Registration>}

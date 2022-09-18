@@ -9,3 +9,6 @@
 .error {
   @extend %error;
 }
+.Input[type="file"] {
+  display: none;
+}

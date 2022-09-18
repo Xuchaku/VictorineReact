@@ -69,3 +69,16 @@ $border-purple: #6357a9;
   color: $font-ui-color;
   background-color: $background-structure;
 }
+//img
+%img-structure-main {
+  width: 200px;
+  height: 200px;
+  border: 2px solid $border-purple;
+  border-radius: 6px;
+  display: block;
+}
+%img-structure-minor {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+}

@@ -19,10 +19,9 @@
     font-family: $font-family-simple;
   }
   img {
-    width: 200px;
-    height: 200px;
+    @extend %img-structure-main;
     @extend %structure;
-    border: 2px solid $border-purple;
+    margin-right: 20px;
   }
   h2 {
     font-size: $font-size-major;

@@ -10,5 +10,7 @@ export const Categories: Categorie[] = [
   { type: "games", text: "Игры" },
   { type: "serials", text: "Сериалы" },
   { type: "akters", text: "Актеры" },
+  { type: "anime", text: "Аниме" },
+  { type: "cartoon", text: "Мультфильмы" },
 ];
 export const TOTAL_STEP_MENU = 3;

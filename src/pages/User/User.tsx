@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./User.scss";
 import Button from "../../UI/Button/Button";
 export default function User() {
@@ -17,7 +18,9 @@ export default function User() {
         <p>Когда зарегистрирован</p>
         <p>Моя информация вам точно понадобится для того чтобы жить</p>
         <div className="Actions">
-          <Button onClick={() => {}}>Изменить</Button>
+          <Button onClick={() => {}}>
+            <Link to="/edituser">Изменить</Link>
+          </Button>
           <Button background="#ff2400" onClick={() => {}}>
             Удалить
           </Button>
