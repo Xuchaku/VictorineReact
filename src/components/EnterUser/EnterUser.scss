@@ -12,9 +12,7 @@
     font-size: $font-size-header;
   }
   img {
-    width: 40px;
-    height: 40px;
-    border-radius: 100%;
+    @extend %img-structure-minor;
     border: 2px solid $border-purple;
   }
 }

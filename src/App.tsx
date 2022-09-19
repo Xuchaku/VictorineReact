@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import "./App.scss";
+import PrivatePage from "./hoc/PrivatePage";
 import Auth from "./context/Auth";
 import Game from "./pages/Game/Game";
 import Login from "./pages/Login/Login";
@@ -26,9 +27,23 @@ function App() {
           <Route path="menu" element={<Menu></Menu>}></Route>
           <Route path="game" element={<Game></Game>}></Route>
         </Route>
-        <Route path="user" element={<User></User>}></Route>
+        <Route
+          path="user"
+          element={
+            <PrivatePage>
+              <User />
+            </PrivatePage>
+          }
+        ></Route>
         <Route path="login" element={<Login></Login>}></Route>
-        <Route path="edituser" element={<EditUser></EditUser>}></Route>
+        <Route
+          path="edituser"
+          element={
+            <PrivatePage>
+              <EditUser />
+            </PrivatePage>
+          }
+        ></Route>
         <Route
           path="registration"
           element={<Registration></Registration>}

@@ -1,0 +1,4 @@
+@import "./../../Global/style/Global.scss";
+.TextArea {
+  @extend %input;
+}

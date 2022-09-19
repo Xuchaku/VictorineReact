@@ -2,6 +2,7 @@ import React, { ChangeEvent, useId, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../UI/Button/Button";
 import Input from "../../UI/Input/Input";
+import TextArea from "../../UI/TextArea/TextArea";
 import { readFileAsync } from "../../utils";
 import "./EditUser.scss";
 const EditUser = () => {
@@ -10,7 +11,9 @@ const EditUser = () => {
   const refImgMini = useRef<HTMLImageElement>(null);
   const navigate = useNavigate();
 
-  function userInfoChangeHandler(event: ChangeEvent<HTMLInputElement>) {}
+  function userInfoChangeHandler(
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {}
 
   async function userAvatarChangeHandler(event: ChangeEvent<HTMLInputElement>) {
     const files = event.target.files;
@@ -72,12 +75,13 @@ const EditUser = () => {
         </div>
         <div>
           <h2>О себе</h2>
-          <Input
+          {/* <Input
             type="text"
             value="value"
             placeholder="Напишите о что-то о себе"
             onChange={userInfoChangeHandler}
-          ></Input>
+          ></Input> */}
+          <TextArea onChange={userInfoChangeHandler}>{"value"}</TextArea>
         </div>
         <Button background="#46F25D" onClick={() => {}}>
           Сохранить
