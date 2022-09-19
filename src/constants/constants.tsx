@@ -12,5 +12,7 @@ export const Categories: Categorie[] = [
   { type: "akters", text: "Актеры" },
   { type: "anime", text: "Аниме" },
   { type: "cartoon", text: "Мультфильмы" },
+  { type: "people", text: "Люди" },
 ];
 export const TOTAL_STEP_MENU = 3;
+const POINT_API = "http://localhost:8000";
