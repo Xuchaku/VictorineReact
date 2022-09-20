@@ -7,6 +7,9 @@ class UserController {
   constructor() {}
   registration(req: Request, res: Response, next: NextFunction) {
     const { login, password, verifyPassword, dataRegistrate } = req.body;
+    const { Token } = req.cookies;
+    console.log(Token);
+
     const { users } = JSON.parse(
       fs.readFileSync(__dirname + "/../fakeDataBase/users.json", "utf8")
     );
@@ -46,6 +49,7 @@ class UserController {
     const { users } = JSON.parse(
       fs.readFileSync(__dirname + "/../fakeDataBase/users.json", "utf8")
     );
+
     const findUser: User | undefined = users.find((user: User) => {
       return user.login == login;
     });
@@ -61,7 +65,10 @@ class UserController {
         .digest("hex");
       if (verifyPass == findUser.hashPassword) {
         const token = tokenService.generateToken(findUser);
-        res.cookie("Token", token, { maxAge: 3600000, httpOnly: true });
+        res.cookie("Token", token, {
+          maxAge: 8 * 3600000,
+          httpOnly: true,
+        });
         res.status(200).send({ ok: true, text: "Добро пожаловать" });
       } else {
         res.status(400).send({

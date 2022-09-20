@@ -10,11 +10,11 @@ const EnterUser = () => {
   }
   return (
     <div className="EnterUser">
+      <NavLink to="/registration">Регистрация</NavLink>
       {!isAuth ? (
         <div>
           <NavLink to="/login">Вход</NavLink>
           <span>/</span>
-          <NavLink to="/registration">Регистрация</NavLink>
         </div>
       ) : (
         <div className="User">

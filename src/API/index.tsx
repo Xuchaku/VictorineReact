@@ -9,6 +9,7 @@ class API {
   async login(point: string, data: User) {
     const response = await fetch(this.host + point, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
@@ -21,6 +22,7 @@ class API {
   async registrate(point: string, data: Register) {
     const response = await fetch(this.host + point, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
