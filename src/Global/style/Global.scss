@@ -48,6 +48,16 @@ $shadow-structure: rgba(7, 177, 202, 0.5);
   -moz-box-shadow: 0px 0px 8px 2px red;
   box-shadow: 0px 0px 8px 2px red;
 }
+%default {
+  -webkit-box-shadow: 0px 0px 8px 2px rgb(195, 196, 200);
+  -moz-box-shadow: 0px 0px 8px 2px rgb(195, 196, 200);
+  box-shadow: 0px 0px 8px 2px rgb(195, 196, 200);
+}
+%help {
+  -webkit-box-shadow: 0px 0px 8px 2px #6357a9;
+  -moz-box-shadow: 0px 0px 8px 2px #6357a9;
+  box-shadow: 0px 0px 8px 2px #6357a9;
+}
 
 //UI
 $border-purple: #6357a9;

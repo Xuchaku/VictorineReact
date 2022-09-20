@@ -6,23 +6,44 @@ import Button from "../../UI/Button/Button";
 import Input from "../../UI/Input/Input";
 import Auth from "../../context/Auth";
 import { POINT_API_LOGIN } from "../../constants/constants";
+import Modal from "../../UI/Modal/Modal";
+import Status from "../../types/Status/Status";
 export default function Login() {
   const { isAuth, setIsAuthWrapper } = useContext(Auth);
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({ login: "", password: "" });
+  const [statusResponse, setStatusResponse] = useState<Status>({
+    ok: true,
+    text: "",
+  });
   function loginDataChangeHandler(field: string) {
     return function (event: ChangeEvent<HTMLInputElement>) {
       setLoginData({ ...loginData, [field]: event.target.value });
     };
   }
+  function statusResponseCloseHandler() {
+    setStatusResponse({ ...statusResponse, ok: true });
+  }
   async function enterAccount() {
     const response = await api.post(POINT_API_LOGIN, loginData);
-    console.log(response);
-    setIsAuthWrapper(true);
-    navigate("/menu");
+    if (response.ok) {
+      setIsAuthWrapper(true);
+      navigate("/menu");
+    } else {
+      setStatusResponse({ ...response });
+    }
   }
   return (
-    <div className="Login">
+    <div className={`Login ${!statusResponse.ok ? "error" : undefined}`}>
+      {!statusResponse.ok && (
+        <Modal
+          statusResponseCloseHandler={statusResponseCloseHandler}
+          type="error"
+        >
+          {statusResponse.text}
+        </Modal>
+      )}
+
       <p>Войти</p>
       <form onSubmit={(event) => event.preventDefault()}>
         <label htmlFor="">Логин</label>

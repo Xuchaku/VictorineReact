@@ -1,0 +1,41 @@
+@import "./../../Global/style/Global.scss";
+.Modal {
+  @extend %structure;
+  background-color: $background-structure;
+  position: absolute;
+  padding: 20px 30px;
+  left: 50%;
+  top: 50%;
+  width: 400px;
+  height: auto;
+  margin-left: -200px;
+  margin-top: -100px;
+  transition: 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  p {
+    margin-bottom: 15px;
+  }
+}
+.FadedBlock {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(0, 0, 0, 0.7);
+  transition: 0.3s;
+}
+.error {
+  color: red;
+}
+.default {
+  color: $font-ui-color;
+  @extend %default;
+}
+.help {
+  color: $font-ui-color;
+  @extend %help;
+}

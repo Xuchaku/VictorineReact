@@ -8,15 +8,13 @@ const EnterUser = () => {
   const { isAuth, setIsAuthWrapper } = useContext(Auth);
   async function logout(event: MouseEvent<HTMLAnchorElement>) {
     const response = await api.post(POINT_API_LOGOUT);
-    console.log(response);
-    setIsAuthWrapper(false);
+    if (response.ok) {
+      setIsAuthWrapper(false);
+    }
     event.preventDefault();
   }
   return (
     <div className="EnterUser">
-      <Link to="/" onClick={logout}>
-        Выйти
-      </Link>
       {!isAuth ? (
         <div>
           <Link to="/login">Вход</Link>

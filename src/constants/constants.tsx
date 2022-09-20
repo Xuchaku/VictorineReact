@@ -14,6 +14,11 @@ export const Categories: Categorie[] = [
   { type: "cartoon", text: "Мультфильмы" },
   { type: "people", text: "Люди" },
 ];
+export const BackgroundHashMap = {
+  error: "red",
+  default: "#07b1ca",
+  help: "#6357a9",
+};
 export const TOTAL_STEP_MENU = 3;
 export const POINT_API = "http://localhost:8000";
 export const POINT_API_LOGIN = "/user/login";
