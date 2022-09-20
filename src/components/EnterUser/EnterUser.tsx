@@ -1,33 +1,40 @@
 import React, { useContext, MouseEvent } from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Auth from "../../context/Auth";
+import { api } from "../../API";
+import { POINT_API_LOGOUT } from "../../constants/constants";
 import "./EnterUser.scss";
 const EnterUser = () => {
   const { isAuth, setIsAuthWrapper } = useContext(Auth);
-  function logout(event: MouseEvent<HTMLAnchorElement>) {
+  async function logout(event: MouseEvent<HTMLAnchorElement>) {
+    const response = await api.post(POINT_API_LOGOUT);
+    console.log(response);
     setIsAuthWrapper(false);
     event.preventDefault();
   }
   return (
     <div className="EnterUser">
-      <NavLink to="/registration">Регистрация</NavLink>
+      <Link to="/" onClick={logout}>
+        Выйти
+      </Link>
       {!isAuth ? (
         <div>
-          <NavLink to="/login">Вход</NavLink>
+          <Link to="/login">Вход</Link>
           <span>/</span>
+          <Link to="/registration">Регистрация</Link>
         </div>
       ) : (
         <div className="User">
-          <NavLink to="/login">
+          <Link to="/login">
             <img></img>
-          </NavLink>
+          </Link>
           <div className="MiniMenu">
             <p>Имя</p>
             <div>
-              <NavLink to="/user">Профиль</NavLink>
-              <NavLink to="/" onClick={logout}>
+              <Link to="/user">Профиль</Link>
+              <Link to="/" onClick={logout}>
                 Выйти
-              </NavLink>
+              </Link>
             </div>
           </div>
         </div>

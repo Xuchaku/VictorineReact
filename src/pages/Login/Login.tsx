@@ -16,7 +16,7 @@ export default function Login() {
     };
   }
   async function enterAccount() {
-    const response = await api.login(POINT_API_LOGIN, loginData);
+    const response = await api.post(POINT_API_LOGIN, loginData);
     console.log(response);
     setIsAuthWrapper(true);
     navigate("/menu");

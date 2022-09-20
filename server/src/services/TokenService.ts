@@ -8,5 +8,14 @@ class TokenService {
     });
     return token;
   }
+  validateToken(token: string) {
+    try {
+      const userData = jsonwebtoken.verify(token, "Shefk734Bkfsl");
+      console.log(userData);
+      return userData;
+    } catch (e) {
+      return null;
+    }
+  }
 }
 export const tokenService: TokenService = new TokenService();

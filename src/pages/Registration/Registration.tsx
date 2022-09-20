@@ -24,7 +24,7 @@ const Registration = () => {
   async function registrateAccount() {
     const isValid = isRegistrationDataValid(registrationData);
     if (isValid) {
-      const response = await api.registrate(POINT_API_REGISTRATE, {
+      const response = await api.post(POINT_API_REGISTRATE, {
         ...registrationData,
         dataRegistrate: new Date(),
       });
