@@ -15,4 +15,6 @@ export const Categories: Categorie[] = [
   { type: "people", text: "Люди" },
 ];
 export const TOTAL_STEP_MENU = 3;
-const POINT_API = "http://localhost:8000";
+export const POINT_API = "http://localhost:8000";
+export const POINT_API_LOGIN = "/user/login";
+export const POINT_API_REGISTRATE = "/user/registration";

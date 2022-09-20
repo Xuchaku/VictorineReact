@@ -1,9 +1,11 @@
 import React, { useState, ChangeEvent, useContext } from "react";
+import { api } from "../../API";
 import "./Login.scss";
 import { useNavigate } from "react-router-dom";
 import Button from "../../UI/Button/Button";
 import Input from "../../UI/Input/Input";
 import Auth from "../../context/Auth";
+import { POINT_API_LOGIN } from "../../constants/constants";
 export default function Login() {
   const { isAuth, setIsAuthWrapper } = useContext(Auth);
   const navigate = useNavigate();
@@ -13,9 +15,10 @@ export default function Login() {
       setLoginData({ ...loginData, [field]: event.target.value });
     };
   }
-  function enterAccount() {
+  async function enterAccount() {
+    const response = await api.login(POINT_API_LOGIN, loginData);
+    console.log(response);
     setIsAuthWrapper(true);
-
     navigate("/menu");
   }
   return (

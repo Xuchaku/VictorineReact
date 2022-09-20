@@ -6,6 +6,8 @@ import Input from "../../UI/Input/Input";
 import ErrorMessage from "../../UI/ErrorMessage/ErrorMessage";
 import Register from "../../types/Registrer/Register";
 import { isRegistrationDataValid } from "../../utils";
+import { api } from "../../API";
+import { POINT_API_REGISTRATE } from "../../constants/constants";
 
 const Registration = () => {
   const [registrationData, setRegistrationData] = useState<Register>({
@@ -19,9 +21,14 @@ const Registration = () => {
       setRegistrationData({ ...registrationData, [field]: event.target.value });
     };
   }
-  function registrateAccount() {
+  async function registrateAccount() {
     const isValid = isRegistrationDataValid(registrationData);
     if (isValid) {
+      const response = await api.registrate(POINT_API_REGISTRATE, {
+        ...registrationData,
+        dataRegistrate: new Date(),
+      });
+      console.log(response);
     } else {
       setIsError(true);
     }
