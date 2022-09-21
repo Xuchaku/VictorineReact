@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "./store/store";
+import { setUser, loadUserAsync } from "./store/userSlice/userSlice";
+import { api } from "./API";
+import { POINT_API_ONLINE } from "./constants/constants";
 import "./App.scss";
 import PrivatePage from "./hoc/PrivatePage";
 import Auth from "./context/Auth";
@@ -16,8 +20,22 @@ import Registration from "./pages/Registration/Registration";
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
+  const dispatch = useAppDispatch();
   function setIsAuthWrapper(data: boolean) {
     setIsAuth(data);
+  }
+  useEffect(() => {
+    initUser();
+  }, []);
+  async function initUser() {
+    const response = await api.post(POINT_API_ONLINE);
+    console.log(response);
+    if (!response.ok) {
+      setIsAuth(false);
+    } else {
+      setIsAuth(true);
+      dispatch(loadUserAsync());
+    }
   }
   return (
     <Auth.Provider value={{ isAuth, setIsAuthWrapper }}>

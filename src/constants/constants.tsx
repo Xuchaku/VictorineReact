@@ -24,3 +24,5 @@ export const POINT_API = "http://localhost:8000";
 export const POINT_API_LOGIN = "/user/login";
 export const POINT_API_REGISTRATE = "/user/registration";
 export const POINT_API_LOGOUT = "/user/logout";
+export const POINT_API_ONLINE = "/user/online";
+export const POINT_API_GET_USER = "/user/info";

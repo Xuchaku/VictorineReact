@@ -10,5 +10,5 @@ export const errorMiddleware = (
     return res.status(err.status).send({ ok: false, text: err.message });
   return res
     .status(500)
-    .send({ ok: false, text: "Непридвиденная ошибка сервера!" });
+    .send({ ok: false, text: err.message || "Непридвиденная ошибка сервера!" });
 };

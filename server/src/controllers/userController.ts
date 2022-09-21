@@ -5,6 +5,48 @@ import fs from "fs";
 import User from "../types/User";
 class UserController {
   constructor() {}
+  info(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { Token } = req.cookies;
+      const userData = tokenService.validateToken(Token) as User;
+
+      const { users } = JSON.parse(
+        fs.readFileSync(__dirname + "/../fakeDataBase/users.json", "utf8")
+      );
+      const findUser: User = users.find((user: User) => {
+        return user.login == userData.login;
+      });
+      if (findUser) {
+        const { login, link, dataRegistrate, imgUrl, about } = findUser;
+        console.log(login, link, dataRegistrate, imgUrl, about);
+        res.status(200).send({
+          ok: 200,
+          user: { login, link, dataRegistrate, imgUrl, about },
+        });
+      } else {
+        throw new Error("Упс! Вашего аккаунта нет!");
+      }
+    } catch (err) {
+      next(err);
+    }
+  }
+  online(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { users } = JSON.parse(
+        fs.readFileSync(__dirname + "/../fakeDataBase/users.json", "utf8")
+      );
+      const { Token } = req.cookies;
+      const userData = tokenService.validateToken(Token);
+      if (userData) {
+        res.status(200).send({
+          ok: 200,
+          text: `Вы успешно зали под логином`,
+        });
+      }
+    } catch (err) {
+      next(err);
+    }
+  }
   registration(req: Request, res: Response, next: NextFunction) {
     try {
       const { login, password, verifyPassword, dataRegistrate } = req.body;
