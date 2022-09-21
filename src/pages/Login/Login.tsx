@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent, useContext } from "react";
 import { api } from "../../API";
 import "./Login.scss";
+import { loadUserAsync } from "../../store/userSlice/userSlice";
 import { useNavigate } from "react-router-dom";
 import Button from "../../UI/Button/Button";
 import Input from "../../UI/Input/Input";
@@ -8,8 +9,10 @@ import Auth from "../../context/Auth";
 import { POINT_API_LOGIN } from "../../constants/constants";
 import Modal from "../../UI/Modal/Modal";
 import Status from "../../types/Status/Status";
+import { useAppDispatch } from "../../store/store";
 export default function Login() {
   const { isAuth, setIsAuthWrapper } = useContext(Auth);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({ login: "", password: "" });
   const [statusResponse, setStatusResponse] = useState<Status>({
@@ -25,9 +28,10 @@ export default function Login() {
     setStatusResponse({ ...statusResponse, ok: true });
   }
   async function enterAccount() {
-    const response = await api.post(POINT_API_LOGIN, loginData);
+    const response = (await api.post(POINT_API_LOGIN, loginData)) as Status;
     if (response.ok) {
       setIsAuthWrapper(true);
+      await dispatch(loadUserAsync());
       navigate("/menu");
     } else {
       setStatusResponse({ ...response });
@@ -43,7 +47,6 @@ export default function Login() {
           {statusResponse.text}
         </Modal>
       )}
-
       <p>Войти</p>
       <form onSubmit={(event) => event.preventDefault()}>
         <label htmlFor="">Логин</label>
