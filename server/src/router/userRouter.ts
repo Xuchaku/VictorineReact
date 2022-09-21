@@ -4,6 +4,7 @@ import authMiddleware from "../middlewares/auth-middleware";
 const userRouter = Router();
 userRouter.post("/login", userController.login);
 userRouter.post("/info", authMiddleware, userController.info);
+userRouter.post("/setinfo", authMiddleware, userController.setinfo);
 userRouter.post("/online", authMiddleware, userController.online);
 userRouter.post("/logout", authMiddleware, userController.logout);
 userRouter.post("/registration", userController.registration);

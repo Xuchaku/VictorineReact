@@ -3,12 +3,18 @@ import { tokenService } from "../services/TokenService";
 import crypto from "crypto";
 import fs from "fs";
 import User from "../types/User";
+import { CustomRequest } from "../types/CustomRequest";
 class UserController {
   constructor() {}
-  info(req: Request, res: Response, next: NextFunction) {
+  setinfo(req: Request, res: Response, next: NextFunction) {
+    const { login, password, verifyPassword, dataRegistrate } = req.body;
+  }
+  info(req: CustomRequest, res: Response, next: NextFunction) {
     try {
-      const { Token } = req.cookies;
-      const userData = tokenService.validateToken(Token) as User;
+      //const { Token } = req.cookies;
+      //const userData = tokenService.validateToken(Token) as User;
+      const { userData } = req;
+      if (!userData) throw new Error("Упс! Вашего аккаунта нет!");
 
       const { users } = JSON.parse(
         fs.readFileSync(__dirname + "/../fakeDataBase/users.json", "utf8")

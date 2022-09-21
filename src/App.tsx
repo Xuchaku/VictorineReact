@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useAppDispatch } from "./store/store";
 import { setUser, loadUserAsync } from "./store/userSlice/userSlice";
 import { api } from "./API";
-import { POINT_API_ONLINE } from "./constants/constants";
+import { POINT_API_GET_USER, POINT_API_ONLINE } from "./constants/constants";
 import "./App.scss";
 import PrivatePage from "./hoc/PrivatePage";
 import Auth from "./context/Auth";
@@ -34,7 +34,7 @@ function App() {
       setIsAuth(false);
     } else {
       setIsAuth(true);
-      dispatch(loadUserAsync());
+      dispatch(loadUserAsync(POINT_API_GET_USER));
     }
   }
   return (

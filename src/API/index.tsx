@@ -1,11 +1,12 @@
 import { POINT_API } from "../constants/constants";
 import Register from "../types/Registrer/Register";
+import UserInfo from "../types/UserInfo/UserInfo";
 class API {
   private host: string;
   constructor(url: string) {
     this.host = url;
   }
-  async post(point: string, data?: Register) {
+  async post(point: string, data?: Register | UserInfo) {
     const response = await fetch(this.host + point, {
       method: "POST",
       credentials: "include",

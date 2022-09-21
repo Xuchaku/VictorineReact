@@ -1,7 +1,13 @@
 import { Request, Response, NextFunction } from "express";
+import { CustomRequest } from "../types/CustomRequest";
 import { tokenService } from "../services/TokenService";
 import ApiError from "../types/ApiError";
-const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+import User from "../types/User";
+const authMiddleware = (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+) => {
   const { Token } = req.cookies;
   if (!Token) {
     return next(ApiError.UnauthorizedError());
@@ -9,6 +15,7 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
   const userData = tokenService.validateToken(Token);
   if (userData) {
+    req.userData = userData as User;
     next();
   } else {
     return next(ApiError.TokenExpired());

@@ -1,4 +1,9 @@
-import React, { ChangeEvent, useId, useRef } from "react";
+import React, { ChangeEvent, useId, useRef, useState } from "react";
+import { useAppSelector, useAppDispatch } from "../../store/store";
+import { loadUserAsync } from "../../store/userSlice/userSlice";
+import { useLayoutEffect } from "react";
+import { POINT_API_SET_USER } from "../../constants/constants";
+import UserInfo from "../../types/UserInfo/UserInfo";
 import { useNavigate } from "react-router-dom";
 import Button from "../../UI/Button/Button";
 import Input from "../../UI/Input/Input";
@@ -7,13 +12,32 @@ import { readFileAsync } from "../../utils";
 import "./EditUser.scss";
 const EditUser = () => {
   const uniqId = useId();
+  const user: UserInfo = useAppSelector((state) => state.user.user);
+  const [userLocal, setUserLocal] = useState<UserInfo>({
+    login: "",
+    dataRegistrate: "",
+    imgUrl: "",
+    link: "",
+    about: "",
+  });
+  const dispatch = useAppDispatch();
   const refImg = useRef<HTMLImageElement>(null);
   const refImgMini = useRef<HTMLImageElement>(null);
   const navigate = useNavigate();
-
-  function userInfoChangeHandler(
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {}
+  useLayoutEffect(() => {
+    console.log("use");
+    setUserLocal({ ...user });
+  }, []);
+  function userInfoChangeHandler(field: string) {
+    return function (
+      event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) {
+      setUserLocal({ ...userLocal, [field]: event.target.value });
+    };
+  }
+  function userInfoSetHandler() {
+    dispatch(loadUserAsync(POINT_API_SET_USER, userLocal));
+  }
 
   async function userAvatarChangeHandler(event: ChangeEvent<HTMLInputElement>) {
     const files = event.target.files;
@@ -31,6 +55,7 @@ const EditUser = () => {
         ) {
           refImg.current.src = data;
           refImgMini.current.src = data;
+          setUserLocal({ ...userLocal, data });
         }
       } catch (err) {}
     }
@@ -41,8 +66,8 @@ const EditUser = () => {
       <div className="Avatar">
         <h2>Аватар</h2>
         <div className="Imgs">
-          <img ref={refImg}></img>
-          <img ref={refImgMini}></img>
+          <img ref={refImg} src={userLocal.imgUrl}></img>
+          <img ref={refImgMini} src={userLocal.imgUrl}></img>
         </div>
         <div>
           <label htmlFor={uniqId}>Выбрать файл</label>
@@ -59,31 +84,28 @@ const EditUser = () => {
           <h2>Логин</h2>
           <Input
             type="text"
-            value="value"
+            value={userLocal.login}
             placeholder="Введите новый логин"
-            onChange={userInfoChangeHandler}
+            onChange={userInfoChangeHandler("login")}
           ></Input>
         </div>
         <div>
           <h2>Ссылка</h2>
           <Input
             type="text"
-            value="value"
+            value={userLocal.link}
             placeholder="Введите ссылку"
-            onChange={userInfoChangeHandler}
+            onChange={userInfoChangeHandler("link")}
           ></Input>
         </div>
         <div>
           <h2>О себе</h2>
-          {/* <Input
-            type="text"
-            value="value"
-            placeholder="Напишите о что-то о себе"
-            onChange={userInfoChangeHandler}
-          ></Input> */}
-          <TextArea onChange={userInfoChangeHandler}>{"value"}</TextArea>
+          <TextArea
+            text={userLocal.about}
+            onChange={userInfoChangeHandler("about")}
+          ></TextArea>
         </div>
-        <Button background="#46F25D" onClick={() => {}}>
+        <Button background="#46F25D" onClick={userInfoSetHandler}>
           Сохранить
         </Button>
         <Button

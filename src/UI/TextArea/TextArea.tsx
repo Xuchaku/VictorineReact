@@ -2,15 +2,11 @@ import React, { FC, ChangeEvent } from "react";
 import "./TextArea.scss";
 
 type TextAreaProps = {
-  children: string;
+  text: string;
   onChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
 };
-const TextArea: FC<TextAreaProps> = ({ children, ...props }) => {
-  return (
-    <textarea {...props} className="TextArea">
-      {children}
-    </textarea>
-  );
+const TextArea: FC<TextAreaProps> = ({ text, ...props }) => {
+  return <textarea {...props} className="TextArea" value={text}></textarea>;
 };
 
 export default TextArea;

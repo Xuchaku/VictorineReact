@@ -1,22 +1,27 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../../store/store";
+import UserInfo from "../../types/UserInfo/UserInfo";
+import { format } from "date-fns";
 import "./User.scss";
 import Button from "../../UI/Button/Button";
 export default function User() {
+  const user: UserInfo = useAppSelector((state) => state.user.user);
+  console.log(user);
   return (
     <div className="UserProfile">
       <div className="Content">
-        <img></img>
+        <img src={user.imgUrl}></img>
       </div>
       <div className="Content">
-        <h2>Имя пользователя</h2>
+        <h2>{user.login}</h2>
         <p>
           <a href="/" target={"_blank"}>
-            Ссылка на себя
+            {user.link}
           </a>
         </p>
-        <p>Когда зарегистрирован</p>
-        <p>Моя информация вам точно понадобится для того чтобы жить</p>
+        <p>{format(new Date(user.dataRegistrate), "dd/mm/yyyy")}</p>
+        <p>{user.about}</p>
         <div className="Actions">
           <Button onClick={() => {}}>
             <Link to="/edituser">Изменить</Link>

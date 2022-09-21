@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent, useContext } from "react";
 import { api } from "../../API";
 import "./Login.scss";
+import { POINT_API_GET_USER } from "../../constants/constants";
 import { loadUserAsync } from "../../store/userSlice/userSlice";
 import { useNavigate } from "react-router-dom";
 import Button from "../../UI/Button/Button";
@@ -31,7 +32,7 @@ export default function Login() {
     const response = (await api.post(POINT_API_LOGIN, loginData)) as Status;
     if (response.ok) {
       setIsAuthWrapper(true);
-      await dispatch(loadUserAsync());
+      await dispatch(loadUserAsync(POINT_API_GET_USER));
       navigate("/menu");
     } else {
       setStatusResponse({ ...response });

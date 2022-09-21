@@ -10,7 +10,7 @@ const corsOptions = {
   credentials: true,
   optionsSuccessStatus: 200,
 };
-
+app.use(express.static(__dirname + "/public"));
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
@@ -20,5 +20,4 @@ app.use(errorMiddleware);
 
 app.listen(8000, () => {
   console.log("Start develop server");
-  console.log(__dirname);
 });
