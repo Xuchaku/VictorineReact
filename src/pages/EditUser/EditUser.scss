@@ -23,6 +23,9 @@
   @extend %structure;
   .Avatar {
     margin-bottom: 30px;
+    span {
+      font-size: 14px;
+    }
     .Imgs img:last-child {
       @extend %img-structure-minor;
     }

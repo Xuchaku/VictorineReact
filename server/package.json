@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./src/index.ts 5000"
+    "dev": "nodemon ./src/index.ts 5000 --ignore ./src/public/* --ignore ./src/fakeDataBase/*"
   },
   "author": "",
   "license": "ISC",
@@ -12,6 +12,7 @@
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.12",
     "@types/jsonwebtoken": "^8.5.9",
+    "base64-img": "^1.0.4",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.18.1",

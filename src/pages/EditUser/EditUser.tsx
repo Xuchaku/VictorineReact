@@ -65,6 +65,7 @@ const EditUser = () => {
     <div className="EditUser">
       <div className="Avatar">
         <h2>Аватар</h2>
+        <span>Максимальный размер файла 1 Мб</span>
         <div className="Imgs">
           <img ref={refImg} src={userLocal.imgUrl}></img>
           <img ref={refImgMini} src={userLocal.imgUrl}></img>

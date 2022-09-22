@@ -26,7 +26,7 @@ export const { setUser } = userSlice.actions;
 export const loadUserAsync =
   (point: string, data?: UserInfo) => async (dispatch: AppDispatch) => {
     const response = await api.post(point, data);
-
+    console.log(response);
     if (response.ok) {
       dispatch(setUser(response.user));
     } else {

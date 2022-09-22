@@ -11,7 +11,6 @@ class TokenService {
   validateToken(token: string) {
     try {
       const userData = jsonwebtoken.verify(token, "Shefk734Bkfsl");
-      console.log(userData);
       return userData;
     } catch (e) {
       return null;

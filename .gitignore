@@ -6,6 +6,11 @@
 .pnp.js
 /server/node_modules
 
+server/src/public/avatars/*
+
+
+
+
 # testing
 /coverage
 
