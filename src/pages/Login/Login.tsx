@@ -6,13 +6,12 @@ import { loadUserAsync } from "../../store/userSlice/userSlice";
 import { useNavigate } from "react-router-dom";
 import Button from "../../UI/Button/Button";
 import Input from "../../UI/Input/Input";
-import Auth from "../../context/Auth";
 import { POINT_API_LOGIN } from "../../constants/constants";
 import Modal from "../../UI/Modal/Modal";
 import Status from "../../types/Status/Status";
+import { setIsAuth } from "../../store/userSlice/userSlice";
 import { useAppDispatch } from "../../store/store";
 export default function Login() {
-  const { isAuth, setIsAuthWrapper } = useContext(Auth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({ login: "", password: "" });
@@ -31,7 +30,7 @@ export default function Login() {
   async function enterAccount() {
     const response = (await api.post(POINT_API_LOGIN, loginData)) as Status;
     if (response.ok) {
-      setIsAuthWrapper(true);
+      dispatch(setIsAuth(true));
       await dispatch(loadUserAsync(POINT_API_GET_USER));
       navigate("/menu");
     } else {

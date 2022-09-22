@@ -1,11 +1,11 @@
-import React, { useContext, FC, useEffect } from "react";
-import Auth from "../context/Auth";
+import React, { FC, useEffect } from "react";
+import { useAppSelector } from "../store/store";
 import { useNavigate } from "react-router-dom";
 type PrivatePageProps = {
   children: React.ReactElement;
 };
 const PrivatePage: FC<PrivatePageProps> = ({ children, ...props }) => {
-  const { isAuth, setIsAuthWrapper } = useContext(Auth);
+  const { isAuth, isLoading } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
   useEffect(() => {
     if (!isAuth) navigate("/");

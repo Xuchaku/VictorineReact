@@ -1,1 +1,28 @@
-{"users":[{"login":"Boriss5","hashPassword":"d4038f9251b2f6dcc2f2b526e49f5d9bb58128d40a73a16d83cab2c01541b7d7","dataRegistrate":"2022-09-20T11:47:59.988Z","imgUrl":"http://localhost:8000/avatars/f0f3c2a24f843abac5d6b1f38859dc7025d32c942afb446bf939c95c527861a7.jpg","link":"Моя ссылка на github","about":"Я являюсь разработчиком на React и Typescript Mobx"},{"login":"Boriss1","hashPassword":"bbb9c9c9d9f87ce7fd1bdcfab8e61bc7e74a0a947b10741abbd7ed535d1596ab","dataRegistrate":"2022-09-20T13:28:43.571Z","imgUrl":"","link":"","about":""},{"login":"Lololo","hashPassword":"15993a3c7de6215c823672898a0af32727761e459071c640fb55d4e194abca7b","dataRegistrate":"2022-09-21T12:26:34.238Z","imgUrl":"","link":"","about":""}]}
+{
+  "users": [
+    {
+      "login": "Boriss6",
+      "hashPassword": "d4038f9251b2f6dcc2f2b526e49f5d9bb58128d40a73a16d83cab2c01541b7d7",
+      "dataRegistrate": "2022-09-20T11:47:59.988Z",
+      "imgUrl": "http://localhost:8000/avatars/f0f3c2a24f843abac5d6b1f38859dc7025d32c942afb446bf939c95c527861a7.jpg",
+      "link": "Моя ссылка на github",
+      "about": "Я являюсь разработчиком на React и Typescript Mobx"
+    },
+    {
+      "login": "Boriss1",
+      "hashPassword": "bbb9c9c9d9f87ce7fd1bdcfab8e61bc7e74a0a947b10741abbd7ed535d1596ab",
+      "dataRegistrate": "2022-09-20T13:28:43.571Z",
+      "imgUrl": "",
+      "link": "",
+      "about": ""
+    },
+    {
+      "login": "Lololo",
+      "hashPassword": "15993a3c7de6215c823672898a0af32727761e459071c640fb55d4e194abca7b",
+      "dataRegistrate": "2022-09-21T12:26:34.238Z",
+      "imgUrl": "",
+      "link": "",
+      "about": ""
+    }
+  ]
+}

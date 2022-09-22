@@ -6,9 +6,10 @@ import { format } from "date-fns";
 import "./User.scss";
 import Button from "../../UI/Button/Button";
 export default function User() {
-  const user: UserInfo = useAppSelector((state) => state.user.user);
-  console.log(user);
-  return (
+  const { user, isLoading } = useAppSelector((state) => state.user);
+  return isLoading ? (
+    <p>Loading...</p>
+  ) : (
     <div className="UserProfile">
       <div className="Content">
         <img src={user.imgUrl}></img>

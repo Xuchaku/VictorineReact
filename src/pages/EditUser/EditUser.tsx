@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useId, useRef, useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../store/store";
 import { loadUserAsync } from "../../store/userSlice/userSlice";
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useEffect } from "react";
 import { POINT_API_SET_USER } from "../../constants/constants";
 import UserInfo from "../../types/UserInfo/UserInfo";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,7 @@ import TextArea from "../../UI/TextArea/TextArea";
 import { readFileAsync } from "../../utils";
 import "./EditUser.scss";
 const EditUser = () => {
+  const { isLoading, isAuth } = useAppSelector((state) => state.user);
   const uniqId = useId();
   const user: UserInfo = useAppSelector((state) => state.user.user);
   const [userLocal, setUserLocal] = useState<UserInfo>({
@@ -24,10 +25,9 @@ const EditUser = () => {
   const refImg = useRef<HTMLImageElement>(null);
   const refImgMini = useRef<HTMLImageElement>(null);
   const navigate = useNavigate();
-  useLayoutEffect(() => {
-    console.log("use");
+  useEffect(() => {
     setUserLocal({ ...user });
-  }, []);
+  }, [isLoading]);
   function userInfoChangeHandler(field: string) {
     return function (
       event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
