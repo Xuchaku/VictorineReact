@@ -56,9 +56,10 @@ const Menu = () => {
       <div className="Action">
         {step == 0 && (
           <div>
-            {Categories.map((categorie: Categorie) => {
+            {Categories.map((categorie: Categorie, key: number) => {
               return (
                 <Button
+                  key={key}
                   background={generateRandomColor()}
                   onClick={settingsClickHandler("categorie", categorie.type)}
                 >

@@ -6,7 +6,7 @@ import { api } from "../../API";
 import { POINT_API_LOGOUT } from "../../constants/constants";
 import "./EnterUser.scss";
 const EnterUser = () => {
-  const { isAuth } = useAppSelector((state) => state.user);
+  const { isAuth, user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   async function logout(event: MouseEvent<HTMLAnchorElement>) {
     const response = await api.post(POINT_API_LOGOUT);
@@ -26,7 +26,7 @@ const EnterUser = () => {
       ) : (
         <div className="User">
           <Link to="/login">
-            <img></img>
+            <img src={user.imgUrl}></img>
           </Link>
           <div className="MiniMenu">
             <p>Имя</p>

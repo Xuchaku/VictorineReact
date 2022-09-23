@@ -27,3 +27,5 @@ export const POINT_API_LOGOUT = "/user/logout";
 export const POINT_API_ONLINE = "/user/online";
 export const POINT_API_GET_USER = "/user/info";
 export const POINT_API_SET_USER = "/user/setinfo";
+
+export const POINT_WEBSOCKET = "ws://localhost:7777";

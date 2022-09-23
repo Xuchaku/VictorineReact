@@ -11,10 +11,14 @@ import Modal from "../../UI/Modal/Modal";
 import Status from "../../types/Status/Status";
 import { setIsAuth } from "../../store/userSlice/userSlice";
 import { useAppDispatch } from "../../store/store";
+import LoginUser from "../../types/LoginUser/LoginUser";
 export default function Login() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [loginData, setLoginData] = useState({ login: "", password: "" });
+  const [loginData, setLoginData] = useState<LoginUser>({
+    login: "",
+    password: "",
+  });
   const [statusResponse, setStatusResponse] = useState<Status>({
     ok: true,
     text: "",
@@ -30,8 +34,8 @@ export default function Login() {
   async function enterAccount() {
     const response = (await api.post(POINT_API_LOGIN, loginData)) as Status;
     if (response.ok) {
-      dispatch(setIsAuth(true));
-      await dispatch(loadUserAsync(POINT_API_GET_USER));
+      //dispatch(setIsAuth(true));
+      dispatch(loadUserAsync(POINT_API_GET_USER));
       navigate("/menu");
     } else {
       setStatusResponse({ ...response });

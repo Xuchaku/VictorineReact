@@ -3,8 +3,9 @@ import userRouter from "./router/userRouter";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { errorMiddleware } from "./middlewares/error-middleware";
-
+import { WebSocketServer } from "./services/WebSoketService";
 const app = express();
+const ws = new WebSocketServer(7777);
 const corsOptions = {
   origin: "http://localhost:3000",
   credentials: true,

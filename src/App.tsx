@@ -1,10 +1,15 @@
 import React, { useLayoutEffect, useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import { useAppDispatch } from "./store/store";
+import { useAppDispatch, useAppSelector } from "./store/store";
 import { loadUserAsync } from "./store/userSlice/userSlice";
 import { api } from "./API";
-import { POINT_API_GET_USER, POINT_API_ONLINE } from "./constants/constants";
+import {
+  POINT_API_GET_USER,
+  POINT_API_ONLINE,
+  POINT_WEBSOCKET,
+} from "./constants/constants";
 import "./App.scss";
+
 import PrivatePage from "./hoc/PrivatePage";
 import Game from "./pages/Game/Game";
 import Login from "./pages/Login/Login";
@@ -15,14 +20,27 @@ import EditUser from "./pages/EditUser/EditUser";
 import Error from "./pages/Error/Error";
 import About from "./pages/About/About";
 import Registration from "./pages/Registration/Registration";
+import { webSocketApi } from "./API/WebSocketService";
+import UserSocket from "./types/UserSocket/UserSocket";
 
 function App() {
   const dispatch = useAppDispatch();
+  const { isAuth, user } = useAppSelector((state) => state.user);
   useEffect(() => {
     initUser();
   }, []);
+  useEffect(() => {
+    if (isAuth) {
+      console.log("!!!");
+      const connectUser: UserSocket = {
+        type: "connect",
+        login: user.login,
+        imgUrl: user.imgUrl,
+      };
+      webSocketApi.send(connectUser);
+    }
+  }, [isAuth]);
   async function initUser() {
-    //dispatch(authUserAsync(POINT_API_ONLINE));
     dispatch(loadUserAsync(POINT_API_GET_USER));
   }
   return (
