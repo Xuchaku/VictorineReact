@@ -11,16 +11,24 @@ export class WebSocketServer {
           case "connect":
             this.broadcastMessage(fromUser, ws);
             break;
+          case "online":
+            this.broadcastMessage(fromUser, ws);
+            break;
+          case "exit":
+            this.broadcastMessage(fromUser, ws);
+            break;
         }
       });
     });
   }
 
   broadcastMessage(data: UserSocket, ws: WebSocket) {
+    const i = 0;
     this.wss?.clients.forEach((client) => {
       if (ws != client) {
         client.send(JSON.stringify(data));
       }
+      console.log(this.wss?.clients.size);
     });
   }
 }

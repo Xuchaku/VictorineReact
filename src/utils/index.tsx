@@ -1,3 +1,4 @@
+import store from "../store/store";
 import Register from "../types/Registrer/Register";
 export const isRegistrationDataValid = (data: Register): boolean => {
   return (
@@ -8,7 +9,7 @@ export const isRegistrationDataValid = (data: Register): boolean => {
 };
 export const generateRandomColor = (): string => {
   const color = Math.floor(Math.random() * 65536);
-  console.log(color);
+
   return "#" + color.toString(16);
 };
 export const isValidNumeric = (
@@ -29,4 +30,9 @@ export const readFileAsync = async (file: File) => {
       if (typeof reader.result == "string") resolve(reader.result);
     };
   });
+};
+export const findInStore = (field: string) => {
+  const { players } = store.getState().players;
+  const findPlayer = players.find((player) => player.login == field);
+  return findPlayer;
 };

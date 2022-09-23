@@ -14,3 +14,30 @@
 .Sidebar > div {
   padding: 10px 15px;
 }
+.Player {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  & > div {
+    position: relative;
+    span {
+      position: absolute;
+      display: block;
+      right: 5px;
+      bottom: 5px;
+      width: 10px;
+      height: 10px;
+      background-color: rgb(59, 248, 59);
+      border-radius: 100%;
+    }
+  }
+  img {
+    @extend %img-structure-minor;
+    border: 2px solid $border-purple;
+  }
+  p {
+    margin-left: 10px;
+    font-size: $font-size-major;
+  }
+}

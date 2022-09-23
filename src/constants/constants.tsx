@@ -29,3 +29,7 @@ export const POINT_API_GET_USER = "/user/info";
 export const POINT_API_SET_USER = "/user/setinfo";
 
 export const POINT_WEBSOCKET = "ws://localhost:7777";
+
+export const TYPE_WEBSOCKET_CONNECT = "connect";
+export const TYPE_WEBSOCKET_ONLINE = "online";
+export const TYPE_WEBSOCKET_EXIT = "exit";
