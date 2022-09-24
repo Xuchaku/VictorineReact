@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useMemo } from "react";
 import "./Sidebar.scss";
 import { useAppSelector } from "../../store/store";
 import Input from "../../UI/Input/Input";
@@ -8,6 +8,13 @@ const Sidebar = () => {
   function searchChangeHandler(event: ChangeEvent<HTMLInputElement>) {
     setSearch(event.target.value);
   }
+  const searchedPlayers = useMemo(() => {
+    if (!search) return players;
+    else
+      return players.filter((player) => {
+        return player.login.toLowerCase().includes(search.toLowerCase());
+      });
+  }, [players, search]);
   return (
     <div className="Sidebar">
       <div>
@@ -20,7 +27,7 @@ const Sidebar = () => {
         placeholder="Поиск..."
       ></Input>
       <div>
-        {players.map((player, key) => {
+        {searchedPlayers.map((player, key) => {
           return (
             <div key={key} className="Player">
               <div>
