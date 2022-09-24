@@ -1,0 +1,22 @@
+@import "./../../Global/style/Global.scss";
+.Room {
+  display: flex;
+  border: 1px solid black;
+  font-size: $font-size-header;
+  font-family: $font-family-major;
+  padding: 5px;
+  align-items: center;
+  gap: 20px;
+  margin: 20px 20px;
+  & div:first-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  @extend %structure;
+  img {
+    @extend %img-structure-minor;
+    border: 2px solid $border-purple;
+  }
+}

@@ -14,7 +14,7 @@ const About = () => {
       </h1>
       <p>
         <Link to="/menu">Меню</Link>
-        <Link to="/game">Играть</Link>
+        <Link to="/rooms">Играть</Link>
       </p>
     </div>
   );

@@ -2,10 +2,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import userReducer from "./userSlice/userSlice";
 import playersReducer from "./playersSlice/playersSlice";
+import gameReducer from "./gameSlice/gameSlice";
 const store = configureStore({
   reducer: {
     user: userReducer,
     players: playersReducer,
+    game: gameReducer,
   },
 });
 export default store;

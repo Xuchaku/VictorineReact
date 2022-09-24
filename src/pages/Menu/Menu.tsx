@@ -1,6 +1,8 @@
 import React, { useState, ChangeEvent } from "react";
 import Button from "../../UI/Button/Button";
 import "./Menu.scss";
+import { setGameSettings } from "../../store/gameSlice/gameSlice";
+import { useAppDispatch } from "../../store/store";
 import { Categories } from "../../constants/constants";
 import Categorie from "../../types/Categorie/Categorie";
 import Settings from "../../types/Settings/Settings";
@@ -13,9 +15,10 @@ import { TOTAL_STEP_MENU } from "../../constants/constants";
 const Menu = () => {
   const [settings, setSettings] = useState<Settings>({
     categorie: "",
-    mode: false,
-    players: "",
+    mode: "public",
+    players: "2",
   });
+  const dispatch = useAppDispatch();
   const [isError, setIsError] = useState(false);
   const [step, setStep] = useState(0);
   const LEFT_EDGE = 2,
@@ -29,7 +32,7 @@ const Menu = () => {
       ? "Введите количество игроков"
       : null;
 
-  function settingsClickHandler(field: string, data: string | boolean) {
+  function settingsClickHandler(field: string, data: string) {
     return function () {
       setSettings({ ...settings, [field]: data });
       setStep(step + 1);
@@ -45,6 +48,7 @@ const Menu = () => {
     if (isVaild) {
       setIsError(false);
       setStep(step + 1);
+      dispatch(setGameSettings(settings));
     } else {
       setIsError(true);
     }
@@ -73,13 +77,13 @@ const Menu = () => {
           <div className="Action">
             <Button
               background={"#46F25D"}
-              onClick={settingsClickHandler("mode", true)}
+              onClick={settingsClickHandler("mode", "public")}
             >
               Публичный
             </Button>
             <Button
               background={"#405AF7"}
-              onClick={settingsClickHandler("mode", false)}
+              onClick={settingsClickHandler("mode", "private")}
             >
               Приватный
             </Button>

@@ -1,6 +1,6 @@
 type Settings = {
   categorie: string;
-  mode: boolean;
+  mode: "public" | "private";
   players: string;
 };
 export default Settings;
