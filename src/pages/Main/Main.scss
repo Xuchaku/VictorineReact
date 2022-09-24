@@ -7,7 +7,7 @@
     "footer footer footer footer ";
   grid-template-columns: minmax(200px, 1fr) 2fr 2fr minmax(200px, 1fr);
   //grid-template-rows: 80px minmax(600px, auto) 10%;
-  grid-template-rows: 80px minmax(600px, auto) 20%;
+  grid-template-rows: 80px auto 20%;
 }
 
 .Main > div:nth-child(1) {

@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent } from "react";
 import Button from "../../UI/Button/Button";
 import "./Menu.scss";
+import { useNavigate } from "react-router-dom";
 import { setGameSettings } from "../../store/gameSlice/gameSlice";
 import { useAppDispatch } from "../../store/store";
 import { Categories } from "../../constants/constants";
@@ -13,6 +14,7 @@ import ErrorMessage from "../../UI/ErrorMessage/ErrorMessage";
 import { TOTAL_STEP_MENU } from "../../constants/constants";
 
 const Menu = () => {
+  const navigate = useNavigate();
   const [settings, setSettings] = useState<Settings>({
     categorie: "",
     mode: "public",
@@ -49,6 +51,7 @@ const Menu = () => {
       setIsError(false);
       setStep(step + 1);
       dispatch(setGameSettings(settings));
+      navigate("/lobby");
     } else {
       setIsError(true);
     }

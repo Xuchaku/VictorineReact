@@ -1,12 +1,13 @@
 @import "./../../Global/style/Global.scss";
 .Room {
   display: flex;
+  flex-direction: row;
   border: 1px solid black;
   font-size: $font-size-header;
   font-family: $font-family-major;
-  padding: 5px;
   align-items: center;
   gap: 20px;
+  padding: 5px;
   margin: 20px 20px;
   & div:first-child {
     display: flex;

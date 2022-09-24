@@ -1,0 +1,31 @@
+@import "./../../Global/style/Global.scss";
+.Lobby {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: $font-family-header;
+  padding: 10px;
+  @extend %structure;
+  background-color: $background-structure;
+  & > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  h2 {
+    font-size: 48px;
+  }
+  img {
+    width: 400px;
+    height: 350px;
+    border: 2px solid $border-purple;
+    border-radius: 6px;
+    margin-bottom: 15px;
+  }
+  p {
+    font-size: $font-size-major;
+    span {
+      font-size: $font-size-header;
+    }
+  }
+}

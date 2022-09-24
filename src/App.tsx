@@ -20,6 +20,7 @@ import About from "./pages/About/About";
 import Registration from "./pages/Registration/Registration";
 //import useWebSocket from "./hooks/useWebSocket";
 import Rooms from "./pages/Rooms/Rooms";
+import Lobby from "./pages/Lobby/Lobby";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -48,6 +49,7 @@ function App() {
           <Route path="menu" element={<Menu></Menu>}></Route>
           <Route path="game" element={<Game></Game>}></Route>
           <Route path="rooms" element={<Rooms />}></Route>
+          <Route path="lobby" element={<Lobby />}></Route>
         </Route>
         <Route path="user" element={<User />}></Route>
         <Route path="login" element={<Login></Login>}></Route>
