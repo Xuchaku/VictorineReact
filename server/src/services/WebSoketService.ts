@@ -10,19 +10,22 @@ export class WebSocketServer {
       ws.on("message", (message) => {
         const fromUser: any = JSON.parse(message.toString());
         switch (fromUser.type) {
-          case "connect":
-            this.broadcastMessage(fromUser as UserSocket, ws);
+          case "connect": {
+            this.broadcastMessageExcludeOne(fromUser as UserSocket, ws);
+            this.clearRoomByHost(fromUser as UserSocket);
+            console.log("here");
             break;
+          }
           case "online":
-            this.broadcastMessage(fromUser as UserSocket, ws);
+            this.broadcastMessageExcludeOne(fromUser as UserSocket, ws);
             break;
           case "exit":
-            this.broadcastMessage(fromUser as UserSocket, ws);
+            this.broadcastMessageExcludeOne(fromUser as UserSocket, ws);
             break;
           case "create/room": {
             const roomSettings: GameSettings = fromUser as GameSettings;
             this.rooms.push(roomSettings);
-            this.broadcastMessage(
+            this.broadcastMessageExcludeOne(
               { room: roomSettings, type: "create/room" },
               ws
             );
@@ -35,10 +38,44 @@ export class WebSocketServer {
           }
         }
       });
+      ws.onclose = (event) => {
+        console.log(event.code);
+        switch (event.code) {
+          case 1001: {
+            break;
+          }
+          case 1000: {
+            console.log("here", event.reason);
+            const uniqId = event.reason;
+            const roomsExcludeOne = this.rooms.filter((room) => {
+              return room.uniqId != uniqId;
+            });
+            this.rooms = roomsExcludeOne;
+            this.broadcastMessageExcludeOne(
+              { rooms: this.rooms, type: "get/rooms" },
+              ws
+            );
+            break;
+          }
+          default:
+            break;
+        }
+      };
     });
   }
-
-  broadcastMessage(data: any, ws: WebSocket) {
+  clearRoomByHost(user: UserSocket) {
+    const roomsExcludeOne = this.rooms.filter((room) => {
+      return user.login != room.host;
+    });
+    this.rooms = roomsExcludeOne;
+    this.broadcastMessage({ rooms: this.rooms, type: "get/rooms" });
+  }
+  broadcastMessage(data: any) {
+    this.wss?.clients.forEach((client) => {
+      client.send(JSON.stringify(data));
+    });
+  }
+  broadcastMessageExcludeOne(data: any, ws: WebSocket) {
     this.wss?.clients.forEach((client) => {
       if (ws != client) {
         client.send(JSON.stringify(data));

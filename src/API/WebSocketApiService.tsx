@@ -22,6 +22,7 @@ import Settings from "../types/Settings/Settings";
 import GameSettings from "../types/GameSettings/GameSettings";
 class WebSocketApiService {
   private socket: WebSocket | null = null;
+  private createdRoom: GameSettings | null = null;
   constructor() {
     this.socket = new WebSocket(POINT_WEBSOCKET);
 
@@ -85,6 +86,7 @@ class WebSocketApiService {
         }
         case TYPE_WEBSOCKET_GET_ROOMS: {
           const rooms = data.rooms as GameSettings[];
+          console.log("ROOOMS");
           store.dispatch(setRooms(rooms));
           break;
         }
@@ -99,20 +101,27 @@ class WebSocketApiService {
   }
   createRoom(settings: Settings) {
     const { user } = store.getState().user;
-    const roomSettings: GameSettings = {
+    this.createdRoom = {
       ...settings,
       host: user.login,
       imgUrl: user.imgUrl,
       uniqId: hashRoom(user.login, new Date()),
       type: TYPE_WEBSOCKET_CREATE_ROOM,
     };
-    this.send(roomSettings);
+    this.send(this.createdRoom);
+  }
+  closeRoom() {
+    if (this.createdRoom) {
+      this.socket?.close(1000, this.createdRoom?.uniqId);
+      this.createdRoom = null;
+    }
   }
   send(data: UserSocket | GameSettings) {
     this.socket?.send(JSON.stringify(data));
   }
   exit() {
     const { user } = store.getState().user;
+
     const connectUser: UserSocket = {
       type: TYPE_WEBSOCKET_EXIT,
       login: user.login,
@@ -120,7 +129,8 @@ class WebSocketApiService {
     };
     this.send(connectUser);
     store.dispatch(clearAllPlayers());
-    this.socket?.close();
+    this.closeRoom();
+    //this.socket?.removeEventListener("open");
   }
 }
 export default WebSocketApiService;
