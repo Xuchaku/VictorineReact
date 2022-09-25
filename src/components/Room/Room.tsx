@@ -1,16 +1,20 @@
-import React from "react";
+import React, { FC } from "react";
 import "./Room.scss";
 import Button from "../../UI/Button/Button";
-const Room = () => {
+import GameSettings from "../../types/GameSettings/GameSettings";
+type RoomProps = {
+  roomSettings: GameSettings;
+};
+const Room: FC<RoomProps> = ({ roomSettings, ...props }) => {
   return (
     <div className="Room">
       <div>
-        <p>Никнейм</p>
-        <img src="" alt="" />
+        <p>{roomSettings.host}</p>
+        <img src={roomSettings.imgUrl} alt="" />
       </div>
       <div>
-        <p>Категория: Аниме</p>
-        <p>Количество игроков: 3/6</p>
+        <p>Категория: {roomSettings.categorie}</p>
+        <p>Количество игроков: ???/{roomSettings.players}</p>
       </div>
       <Button onClick={() => {}}>Присоединиться</Button>
     </div>

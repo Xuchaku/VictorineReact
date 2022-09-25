@@ -1,6 +1,8 @@
 import React, { useState, ChangeEvent } from "react";
 import Button from "../../UI/Button/Button";
 import "./Menu.scss";
+import { useContext } from "react";
+import WebSocketContext from "../../context/WebSocketContext";
 import { useNavigate } from "react-router-dom";
 import { setGameSettings } from "../../store/gameSlice/gameSlice";
 import { useAppDispatch } from "../../store/store";
@@ -14,6 +16,7 @@ import ErrorMessage from "../../UI/ErrorMessage/ErrorMessage";
 import { TOTAL_STEP_MENU } from "../../constants/constants";
 
 const Menu = () => {
+  const socket = useContext(WebSocketContext);
   const navigate = useNavigate();
   const [settings, setSettings] = useState<Settings>({
     categorie: "",
@@ -51,6 +54,7 @@ const Menu = () => {
       setIsError(false);
       setStep(step + 1);
       dispatch(setGameSettings(settings));
+      socket?.createRoom(settings);
       navigate("/lobby");
     } else {
       setIsError(true);

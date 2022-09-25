@@ -36,3 +36,7 @@ export const findInStore = (field: string) => {
   const findPlayer = players.find((player) => player.login == field);
   return findPlayer;
 };
+export const hashRoom = (login: string, date: Date) => {
+  const hash = login + date.toString();
+  return hash;
+};
