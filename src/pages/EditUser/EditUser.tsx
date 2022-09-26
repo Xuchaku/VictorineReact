@@ -1,17 +1,18 @@
-import React, { ChangeEvent, useId, useRef, useState } from "react";
+import React, { ChangeEvent, useEffect, useId, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { useAppSelector, useAppDispatch } from "../../store/store";
 import { loadUserAsync } from "../../store/userSlice/userSlice";
-import { useLayoutEffect, useEffect } from "react";
 import { POINT_API_SET_USER } from "../../constants/constants";
 import UserInfo from "../../types/UserInfo/UserInfo";
-import { useNavigate } from "react-router-dom";
 import Button from "../../UI/Button/Button";
 import Input from "../../UI/Input/Input";
 import TextArea from "../../UI/TextArea/TextArea";
 import { readFileAsync } from "../../utils";
 import "./EditUser.scss";
+
 const EditUser = () => {
-  const { isLoading, isAuth } = useAppSelector((state) => state.user);
+  const { isLoading } = useAppSelector((state) => state.user);
   const uniqId = useId();
   const user: UserInfo = useAppSelector((state) => state.user.user);
   const [userLocal, setUserLocal] = useState<UserInfo>({

@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext, useLayoutEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import "./Lobby.scss";
 import Button from "../../UI/Button/Button";
-import { useContext, useLayoutEffect } from "react";
 import WebSocketContext from "../../context/WebSocketContext";
 import { useAppSelector } from "../../store/store";
 import Loader from "../../UI/Loader/Loader";
 import GameSettings from "./../../types/GameSettings/GameSettings";
 import RoomWithPlayers from "../../types/RoomWithPlayers/RoomWithPlayers";
-import { useNavigate } from "react-router-dom";
+
 const Lobby = () => {
   const socket = useContext(WebSocketContext);
   const [isInit, setIsInit] = useState(false);

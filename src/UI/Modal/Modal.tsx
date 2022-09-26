@@ -1,5 +1,4 @@
-import React, { ReactNode, FC, useState } from "react";
-import Status from "../../types/Status/Status";
+import React, { ReactNode, FC } from "react";
 import Button from "../Button/Button";
 import { BackgroundHashMap } from "../../constants/constants";
 import "./Modal.scss";

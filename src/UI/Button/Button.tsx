@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent, ReactNode } from "react";
+import React, { FC, ReactNode } from "react";
 import "./Button.scss";
 
 type ButtonProps = {

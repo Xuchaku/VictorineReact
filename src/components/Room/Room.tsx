@@ -1,10 +1,12 @@
 import React, { FC } from "react";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+
 import "./Room.scss";
 import Button from "../../UI/Button/Button";
-import { useContext } from "react";
 import WebSocketContext from "../../context/WebSocketContext";
 import GameSettings from "../../types/GameSettings/GameSettings";
-import { useNavigate } from "react-router-dom";
+
 type RoomProps = {
   roomSettings: GameSettings;
 };

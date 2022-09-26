@@ -1,6 +1,8 @@
 import React, { FC, useEffect } from "react";
-import { useAppSelector } from "../store/store";
 import { useNavigate } from "react-router-dom";
+
+import { useAppSelector } from "../store/store";
+
 type PrivatePageProps = {
   children: React.ReactElement;
 };

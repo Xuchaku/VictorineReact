@@ -1,15 +1,15 @@
-import React, { useState, ChangeEvent, useContext } from "react";
+import React, { useState, ChangeEvent } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { api } from "../../API";
 import "./Login.scss";
 import { POINT_API_GET_USER } from "../../constants/constants";
 import { loadUserAsync } from "../../store/userSlice/userSlice";
-import { useNavigate } from "react-router-dom";
 import Button from "../../UI/Button/Button";
 import Input from "../../UI/Input/Input";
 import { POINT_API_LOGIN } from "../../constants/constants";
 import Modal from "../../UI/Modal/Modal";
 import Status from "../../types/Status/Status";
-import { setIsAuth } from "../../store/userSlice/userSlice";
 import { useAppDispatch } from "../../store/store";
 import LoginUser from "../../types/LoginUser/LoginUser";
 export default function Login() {
@@ -34,7 +34,6 @@ export default function Login() {
   async function enterAccount() {
     const response = (await api.post(POINT_API_LOGIN, loginData)) as Status;
     if (response.ok) {
-      //dispatch(setIsAuth(true));
       dispatch(loadUserAsync(POINT_API_GET_USER));
       navigate("/menu");
     } else {

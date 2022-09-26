@@ -1,6 +1,6 @@
-import React, { ChangeEvent } from "react";
-import { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import "./Registration.scss";
 import Button from "../../UI/Button/Button";
 import Input from "../../UI/Input/Input";
@@ -44,7 +44,6 @@ const Registration = () => {
       } else {
         setStatusResponse({ ...response });
       }
-      console.log(response);
     } else {
       setIsError(true);
     }

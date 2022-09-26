@@ -1,10 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../../store/store";
-import UserInfo from "../../types/UserInfo/UserInfo";
 import { format } from "date-fns";
+
+import { useAppSelector } from "../../store/store";
 import "./User.scss";
 import Button from "../../UI/Button/Button";
+
 export default function User() {
   const { user, isLoading } = useAppSelector((state) => state.user);
   return isLoading ? (

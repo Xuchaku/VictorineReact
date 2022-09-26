@@ -1,7 +1,6 @@
-import User from "../types/User";
-import fs from "fs";
 import crypto from "crypto";
 import base64ImgSave from "./saveBase64";
+import User from "../types/User";
 
 export const changeUser = (
   user: User,

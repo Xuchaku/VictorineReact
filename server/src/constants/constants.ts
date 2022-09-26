@@ -1,0 +1,9 @@
+export const TYPE_WEBSOCKET_CONNECT = "connect";
+export const TYPE_WEBSOCKET_ONLINE = "online";
+export const TYPE_WEBSOCKET_EXIT = "exit";
+export const TYPE_WEBSOCKET_CREATE_ROOM = "create/room";
+export const TYPE_WEBSOCKET_GET_ROOMS = "get/rooms";
+export const TYPE_WEBSOCKET_ROOM_CONNECT = "connect/room";
+export const TYPE_WEBSOCKET_ROOM_EXIT = "exit/room";
+export const TYPE_WEBSOCKET_ROOM_LEAVE = "leave/room";
+export const TYPE_WEBSOCKET_ROOM_READY = "ready/room";

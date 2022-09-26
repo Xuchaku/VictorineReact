@@ -37,14 +37,12 @@ class WebSocketApiService {
         login: user.login,
         imgUrl: user.imgUrl,
       };
-      console.log("init");
       this.send(connectUser);
       this.send({ ...connectUser, type: TYPE_WEBSOCKET_GET_ROOMS });
     };
 
     this.socket.onmessage = (event) => {
       const data: any = JSON.parse(event.data);
-      console.log(data);
       switch (data.type) {
         case TYPE_WEBSOCKET_CONNECT: {
           const findPlayer = findInStore(data.login);
@@ -76,7 +74,6 @@ class WebSocketApiService {
           break;
         }
         case TYPE_WEBSOCKET_EXIT: {
-          console.log("DELETE");
           const findPlayer = findInStore(data.login);
           if (findPlayer) {
             store.dispatch(deletePlayer(data));
@@ -90,7 +87,6 @@ class WebSocketApiService {
         }
         case TYPE_WEBSOCKET_GET_ROOMS: {
           const rooms = data.rooms as GameSettings[];
-          console.log("ROOOMS");
           store.dispatch(setRooms(rooms));
           break;
         }

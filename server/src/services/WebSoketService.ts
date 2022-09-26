@@ -1,6 +1,17 @@
 import ws, { Server, WebSocket } from "ws";
 import UserSocket from "../types/UserSocket";
 import GameSettings from "../types/GameSettings";
+import {
+  TYPE_WEBSOCKET_CONNECT,
+  TYPE_WEBSOCKET_CREATE_ROOM,
+  TYPE_WEBSOCKET_EXIT,
+  TYPE_WEBSOCKET_GET_ROOMS,
+  TYPE_WEBSOCKET_ONLINE,
+  TYPE_WEBSOCKET_ROOM_CONNECT,
+  TYPE_WEBSOCKET_ROOM_EXIT,
+  TYPE_WEBSOCKET_ROOM_LEAVE,
+  TYPE_WEBSOCKET_ROOM_READY,
+} from "../constants/constants";
 export class WebSocketServer {
   private wss: Server<WebSocket> | null = null;
   private rooms: GameSettings[] = [];
@@ -10,30 +21,36 @@ export class WebSocketServer {
       ws.on("message", (message) => {
         const fromUser: any = JSON.parse(message.toString());
         switch (fromUser.type) {
-          case "connect": {
+          case TYPE_WEBSOCKET_CONNECT: {
             this.broadcastMessageExcludeOne(fromUser as UserSocket, ws);
             this.clearRoomByHost(fromUser as UserSocket);
-            console.log("here");
             break;
           }
-          case "online":
+          case TYPE_WEBSOCKET_ONLINE:
             this.broadcastMessageExcludeOne(fromUser as UserSocket, ws);
             break;
-          case "exit":
+          case TYPE_WEBSOCKET_EXIT:
             this.broadcastMessageExcludeOne(fromUser as UserSocket, ws);
             break;
-          case "create/room": {
+          case TYPE_WEBSOCKET_CREATE_ROOM: {
             const roomSettings: GameSettings = fromUser as GameSettings;
             this.rooms.push(roomSettings);
-            this.broadcastMessage({ room: roomSettings, type: "create/room" });
+            this.broadcastMessage({
+              room: roomSettings,
+              type: TYPE_WEBSOCKET_CREATE_ROOM,
+            });
             break;
           }
-          case "get/rooms": {
-            ws.send(JSON.stringify({ rooms: this.rooms, type: "get/rooms" }));
-            //this.broadcastMessage({rooms: this.rooms, type: })
+          case TYPE_WEBSOCKET_GET_ROOMS: {
+            ws.send(
+              JSON.stringify({
+                rooms: this.rooms,
+                type: TYPE_WEBSOCKET_GET_ROOMS,
+              })
+            );
             break;
           }
-          case "exit/room": {
+          case TYPE_WEBSOCKET_ROOM_EXIT: {
             const user = fromUser as UserSocket;
             const findRoom = this.rooms.find((room) => {
               return room.uniqId == user.id;
@@ -45,16 +62,15 @@ export class WebSocketServer {
                   return room.uniqId != user.id;
                 });
                 this.rooms = roomsExcludeOne;
-                this.broadcastMessage({ rooms: this.rooms, type: "get/rooms" });
-                // this.broadcastMessageExcludeOne(
-                //   { rooms: this.rooms, type: "get/rooms" },
-                //   ws
-                // );
+                this.broadcastMessage({
+                  rooms: this.rooms,
+                  type: TYPE_WEBSOCKET_GET_ROOMS,
+                });
               }
             }
             break;
           }
-          case "leave/room": {
+          case TYPE_WEBSOCKET_ROOM_LEAVE: {
             const user = fromUser as UserSocket;
             const purposeRoom = this.rooms.find((room) => {
               return room.uniqId == user.id;
@@ -69,11 +85,14 @@ export class WebSocketServer {
                   return player.login != user.login;
                 }
               );
-              this.broadcastMessage({ rooms: this.rooms, type: "get/rooms" });
+              this.broadcastMessage({
+                rooms: this.rooms,
+                type: TYPE_WEBSOCKET_GET_ROOMS,
+              });
             }
             break;
           }
-          case "ready/room": {
+          case TYPE_WEBSOCKET_ROOM_READY: {
             const user = fromUser as UserSocket;
             const purposeRoom = this.rooms.find((room) => {
               return room.uniqId == user.id;
@@ -81,10 +100,13 @@ export class WebSocketServer {
             if (purposeRoom) {
               purposeRoom.countReadyForGame += 1;
             }
-            this.broadcastMessage({ rooms: this.rooms, type: "get/rooms" });
+            this.broadcastMessage({
+              rooms: this.rooms,
+              type: TYPE_WEBSOCKET_GET_ROOMS,
+            });
             break;
           }
-          case "connect/room": {
+          case TYPE_WEBSOCKET_ROOM_CONNECT: {
             const user = fromUser as UserSocket;
             const loginsArr = this.rooms.map((room) => {
               return room.currentPlayers;
@@ -97,7 +119,6 @@ export class WebSocketServer {
               return currentLogin.login == user.login;
             });
             if (findUser) {
-              // не добавлять
             } else {
               const roomById = this.rooms.find((room) => {
                 return room.uniqId == user.id;
@@ -108,7 +129,10 @@ export class WebSocketServer {
               ) {
                 roomById.currentPlayers.push(user);
                 roomById.countPlayer += 1;
-                this.broadcastMessage({ rooms: this.rooms, type: "get/rooms" });
+                this.broadcastMessage({
+                  rooms: this.rooms,
+                  type: TYPE_WEBSOCKET_GET_ROOMS,
+                });
               }
             }
 
@@ -117,23 +141,20 @@ export class WebSocketServer {
         }
       });
       ws.onclose = (event) => {
-        console.log(event.code);
         switch (event.code) {
           case 1001: {
             break;
           }
           case 1000: {
-            console.log("here", event.reason);
             const uniqId = event.reason;
             const roomsExcludeOne = this.rooms.filter((room) => {
               return room.uniqId != uniqId;
             });
             this.rooms = roomsExcludeOne;
-            // this.broadcastMessageExcludeOne(
-            //   { rooms: this.rooms, type: "get/rooms" },
-            //   ws
-            // );
-            this.broadcastMessage({ rooms: this.rooms, type: "get/rooms" });
+            this.broadcastMessage({
+              rooms: this.rooms,
+              type: TYPE_WEBSOCKET_GET_ROOMS,
+            });
             break;
           }
           default:
@@ -147,7 +168,10 @@ export class WebSocketServer {
       return user.login != room.host;
     });
     this.rooms = roomsExcludeOne;
-    this.broadcastMessage({ rooms: this.rooms, type: "get/rooms" });
+    this.broadcastMessage({
+      rooms: this.rooms,
+      type: TYPE_WEBSOCKET_GET_ROOMS,
+    });
   }
   broadcastMessage(data: any) {
     this.wss?.clients.forEach((client) => {

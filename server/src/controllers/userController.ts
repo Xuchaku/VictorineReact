@@ -1,10 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { tokenService } from "../services/TokenService";
-import { changeUser } from "../utils/setUser";
 import crypto from "crypto";
 import fs from "fs";
+
 import User from "../types/User";
 import { CustomRequest } from "../types/CustomRequest";
+import { tokenService } from "../services/TokenService";
+import { changeUser } from "../utils/setUser";
 class UserController {
   constructor() {}
   setinfo(req: CustomRequest, res: Response, next: NextFunction) {
@@ -47,8 +48,6 @@ class UserController {
   }
   info(req: CustomRequest, res: Response, next: NextFunction) {
     try {
-      //const { Token } = req.cookies;
-      //const userData = tokenService.validateToken(Token) as User;
       const { userData } = req;
       if (!userData) throw new Error("Упс! Вашего аккаунта нет!");
 

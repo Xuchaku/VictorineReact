@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { NavLink } from "react-router-dom";
+
 import Link from "./../../types/Link/Link";
 import "./Navigation.scss";
 import EnterUser from "./../EnterUser/EnterUser";

@@ -1,9 +1,9 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Button from "../../UI/Button/Button";
 import "./Menu.scss";
-import { useContext } from "react";
 import WebSocketContext from "../../context/WebSocketContext";
-import { useNavigate } from "react-router-dom";
 import { setGameSettings, setIdGame } from "../../store/gameSlice/gameSlice";
 import { useAppDispatch } from "../../store/store";
 import { Categories } from "../../constants/constants";
