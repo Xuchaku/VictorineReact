@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Lobby.scss";
 import Button from "../../UI/Button/Button";
-import { useContext } from "react";
+import { useContext, useLayoutEffect } from "react";
 import WebSocketContext from "../../context/WebSocketContext";
 import { useAppSelector } from "../../store/store";
 import Loader from "../../UI/Loader/Loader";
@@ -10,15 +10,22 @@ import RoomWithPlayers from "../../types/RoomWithPlayers/RoomWithPlayers";
 import { useNavigate } from "react-router-dom";
 const Lobby = () => {
   const socket = useContext(WebSocketContext);
+  const [isInit, setIsInit] = useState(false);
   const navigate = useNavigate();
+  const { isAuth } = useAppSelector((state) => state.user);
   const { activeRooms } = useAppSelector((state) => state.rooms);
   const { user } = useAppSelector((state) => state.user);
-  const { isAuth } = useAppSelector((state) => state.user);
   const { id } = useAppSelector((state) => state.game);
   const [lobby, setLobby] = useState<GameSettings | null>(null);
   function exitLobbyHandler() {
     if (lobby?.uniqId && lobby.host == user.login) {
       socket?.exitLobby(lobby?.uniqId);
+      navigate("/");
+    }
+  }
+  function leaveLobbyHandler() {
+    if (lobby?.uniqId) {
+      socket?.leaveLobby(lobby?.uniqId);
       navigate("/");
     }
   }
@@ -28,6 +35,7 @@ const Lobby = () => {
     });
     if (findRoom) {
       setLobby(findRoom);
+      setIsInit(true);
     } else {
       const roomsWithIdAndPlayers = activeRooms.map((room) => {
         const roomWithPlayers: RoomWithPlayers = {
@@ -48,12 +56,20 @@ const Lobby = () => {
         });
         if (roomForPlayer) {
           setLobby(roomForPlayer);
+          setIsInit(true);
         } else {
           setLobby(null);
+          setIsInit(true);
         }
+      } else {
+        setLobby(null);
       }
     }
   }, [activeRooms, id]);
+  useLayoutEffect(() => {
+    if (!lobby && isInit) navigate("/");
+    if (!isAuth) navigate("/");
+  }, [lobby, isInit, isAuth]);
 
   return (
     <div className="Lobby">
@@ -77,9 +93,15 @@ const Lobby = () => {
           <span>{lobby?.mode}</span>
         </p>
         <Button onClick={() => {}}>Готов</Button>
-        <Button background="red" onClick={exitLobbyHandler}>
-          Закрыть лобби
-        </Button>
+        {lobby?.host == user.login ? (
+          <Button background="red" onClick={exitLobbyHandler}>
+            Закрыть лобби
+          </Button>
+        ) : (
+          <Button background="red" onClick={leaveLobbyHandler}>
+            Покинуть лобби
+          </Button>
+        )}
       </div>
     </div>
   );

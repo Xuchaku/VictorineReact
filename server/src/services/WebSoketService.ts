@@ -54,6 +54,22 @@ export class WebSocketServer {
             }
             break;
           }
+          case "leave/room": {
+            const user = fromUser as UserSocket;
+            const purposeRoom = this.rooms.find((room) => {
+              return room.uniqId == user.id;
+            });
+            if (purposeRoom) {
+              purposeRoom.countPlayer -= 1;
+              purposeRoom.currentPlayers = purposeRoom.currentPlayers.filter(
+                (player) => {
+                  return player.login != user.login;
+                }
+              );
+              this.broadcastMessage({ rooms: this.rooms, type: "get/rooms" });
+            }
+            break;
+          }
           case "connect/room": {
             const user = fromUser as UserSocket;
             const loginsArr = this.rooms.map((room) => {

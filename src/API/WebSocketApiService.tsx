@@ -4,6 +4,7 @@ import {
   TYPE_WEBSOCKET_GET_ROOMS,
   TYPE_WEBSOCKET_ROOM_CONNECT,
   TYPE_WEBSOCKET_ROOM_EXIT,
+  TYPE_WEBSOCKET_ROOM_LEAVE,
 } from "../constants/constants";
 import UserSocket from "../types/UserSocket/UserSocket";
 import store from "../store/store";
@@ -119,6 +120,16 @@ class WebSocketApiService {
       this.socket?.close(1000, this.createdRoom?.uniqId);
       this.createdRoom = null;
     }
+  }
+  leaveLobby(uniqId: string) {
+    const { user } = store.getState().user;
+    const leaveFromUser: UserSocket = {
+      login: user.login,
+      imgUrl: user.imgUrl,
+      id: uniqId,
+      type: TYPE_WEBSOCKET_ROOM_LEAVE,
+    };
+    this.send(leaveFromUser);
   }
   exitLobby(uniqId: string) {
     if (this.createdRoom) {

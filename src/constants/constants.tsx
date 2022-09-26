@@ -36,3 +36,4 @@ export const TYPE_WEBSOCKET_CREATE_ROOM = "create/room";
 export const TYPE_WEBSOCKET_GET_ROOMS = "get/rooms";
 export const TYPE_WEBSOCKET_ROOM_CONNECT = "connect/room";
 export const TYPE_WEBSOCKET_ROOM_EXIT = "exit/room";
+export const TYPE_WEBSOCKET_ROOM_LEAVE = "leave/room";
