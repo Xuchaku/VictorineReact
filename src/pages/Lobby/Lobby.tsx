@@ -12,9 +12,8 @@ const Lobby = () => {
   const socket = useContext(WebSocketContext);
   const [isInit, setIsInit] = useState(false);
   const navigate = useNavigate();
-  const { isAuth } = useAppSelector((state) => state.user);
+  const { isAuth, user } = useAppSelector((state) => state.user);
   const { activeRooms } = useAppSelector((state) => state.rooms);
-  const { user } = useAppSelector((state) => state.user);
   const { id } = useAppSelector((state) => state.game);
   const [lobby, setLobby] = useState<GameSettings | null>(null);
   function exitLobbyHandler() {
@@ -27,6 +26,11 @@ const Lobby = () => {
     if (lobby?.uniqId) {
       socket?.leaveLobby(lobby?.uniqId);
       navigate("/");
+    }
+  }
+  function readyGameHandler() {
+    if (lobby?.uniqId) {
+      socket?.readyGame(lobby?.uniqId);
     }
   }
   useEffect(() => {
@@ -87,12 +91,16 @@ const Lobby = () => {
         <p>
           {lobby?.countPlayer}/{lobby?.players}
         </p>
+        <p>Готовность</p>
+        <p>
+          {lobby?.countReadyForGame}/{lobby?.players}
+        </p>
       </div>
       <div>
         <p>
           <span>{lobby?.mode}</span>
         </p>
-        <Button onClick={() => {}}>Готов</Button>
+        <Button onClick={readyGameHandler}>Готов</Button>
         {lobby?.host == user.login ? (
           <Button background="red" onClick={exitLobbyHandler}>
             Закрыть лобби

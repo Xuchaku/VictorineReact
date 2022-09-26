@@ -7,6 +7,7 @@ type GameSettings = Settings & {
   imgUrl: string;
   uniqId: string;
   type: string;
+  countReadyForGame: number;
 };
 
 export default GameSettings;

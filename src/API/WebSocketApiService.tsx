@@ -5,6 +5,7 @@ import {
   TYPE_WEBSOCKET_ROOM_CONNECT,
   TYPE_WEBSOCKET_ROOM_EXIT,
   TYPE_WEBSOCKET_ROOM_LEAVE,
+  TYPE_WEBSOCKET_ROOM_READY,
 } from "../constants/constants";
 import UserSocket from "../types/UserSocket/UserSocket";
 import store from "../store/store";
@@ -107,6 +108,7 @@ class WebSocketApiService {
     this.createdRoom = {
       ...settings,
       host: user.login,
+      countReadyForGame: 0,
       imgUrl: user.imgUrl,
       currentPlayers: [],
       countPlayer: 1,
@@ -130,6 +132,16 @@ class WebSocketApiService {
       type: TYPE_WEBSOCKET_ROOM_LEAVE,
     };
     this.send(leaveFromUser);
+  }
+  readyGame(uniqId: string) {
+    const { user } = store.getState().user;
+    const readyForGameUser: UserSocket = {
+      login: user.login,
+      imgUrl: user.imgUrl,
+      id: uniqId,
+      type: TYPE_WEBSOCKET_ROOM_READY,
+    };
+    this.send(readyForGameUser);
   }
   exitLobby(uniqId: string) {
     if (this.createdRoom) {

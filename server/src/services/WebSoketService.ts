@@ -60,6 +60,9 @@ export class WebSocketServer {
               return room.uniqId == user.id;
             });
             if (purposeRoom) {
+              if (purposeRoom.countPlayer == purposeRoom.countReadyForGame) {
+                purposeRoom.countReadyForGame -= 1;
+              }
               purposeRoom.countPlayer -= 1;
               purposeRoom.currentPlayers = purposeRoom.currentPlayers.filter(
                 (player) => {
@@ -68,6 +71,17 @@ export class WebSocketServer {
               );
               this.broadcastMessage({ rooms: this.rooms, type: "get/rooms" });
             }
+            break;
+          }
+          case "ready/room": {
+            const user = fromUser as UserSocket;
+            const purposeRoom = this.rooms.find((room) => {
+              return room.uniqId == user.id;
+            });
+            if (purposeRoom) {
+              purposeRoom.countReadyForGame += 1;
+            }
+            this.broadcastMessage({ rooms: this.rooms, type: "get/rooms" });
             break;
           }
           case "connect/room": {

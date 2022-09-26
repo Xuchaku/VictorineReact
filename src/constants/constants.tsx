@@ -3,7 +3,7 @@ import Categorie from "../types/Categorie/Categorie";
 export const Links: Link[] = [
   { href: "/", text: "Главная" },
   { href: "/menu", text: "Меню" },
-  { href: "/game", text: "Игра" },
+  { href: "/rooms", text: "Игры" },
 ];
 export const Categories: Categorie[] = [
   { type: "films", text: "Фильмы" },
@@ -37,3 +37,4 @@ export const TYPE_WEBSOCKET_GET_ROOMS = "get/rooms";
 export const TYPE_WEBSOCKET_ROOM_CONNECT = "connect/room";
 export const TYPE_WEBSOCKET_ROOM_EXIT = "exit/room";
 export const TYPE_WEBSOCKET_ROOM_LEAVE = "leave/room";
+export const TYPE_WEBSOCKET_ROOM_READY = "ready/room";
