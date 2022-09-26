@@ -1,11 +1,20 @@
 import React, { FC } from "react";
 import "./Room.scss";
 import Button from "../../UI/Button/Button";
+import { useContext } from "react";
+import WebSocketContext from "../../context/WebSocketContext";
 import GameSettings from "../../types/GameSettings/GameSettings";
+import { useNavigate } from "react-router-dom";
 type RoomProps = {
   roomSettings: GameSettings;
 };
 const Room: FC<RoomProps> = ({ roomSettings, ...props }) => {
+  const socket = useContext(WebSocketContext);
+  const navigate = useNavigate();
+  function roomClickHandler() {
+    socket?.connectToRoom(roomSettings.uniqId);
+    navigate("/lobby");
+  }
   return (
     <div className="Room">
       <div>
@@ -14,9 +23,11 @@ const Room: FC<RoomProps> = ({ roomSettings, ...props }) => {
       </div>
       <div>
         <p>Категория: {roomSettings.categorie}</p>
-        <p>Количество игроков: ???/{roomSettings.players}</p>
+        <p>
+          Количество игроков: {roomSettings.countPlayer}/{roomSettings.players}
+        </p>
       </div>
-      <Button onClick={() => {}}>Присоединиться</Button>
+      <Button onClick={roomClickHandler}>Присоединиться</Button>
     </div>
   );
 };

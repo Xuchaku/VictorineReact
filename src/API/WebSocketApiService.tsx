@@ -2,6 +2,8 @@ import {
   POINT_WEBSOCKET,
   TYPE_WEBSOCKET_CREATE_ROOM,
   TYPE_WEBSOCKET_GET_ROOMS,
+  TYPE_WEBSOCKET_ROOM_CONNECT,
+  TYPE_WEBSOCKET_ROOM_EXIT,
 } from "../constants/constants";
 import UserSocket from "../types/UserSocket/UserSocket";
 import store from "../store/store";
@@ -99,13 +101,15 @@ class WebSocketApiService {
 
     this.socket.onerror = (error) => {};
   }
-  createRoom(settings: Settings) {
+  createRoom(settings: Settings, id: string) {
     const { user } = store.getState().user;
     this.createdRoom = {
       ...settings,
       host: user.login,
       imgUrl: user.imgUrl,
-      uniqId: hashRoom(user.login, new Date()),
+      currentPlayers: [],
+      countPlayer: 1,
+      uniqId: id,
       type: TYPE_WEBSOCKET_CREATE_ROOM,
     };
     this.send(this.createdRoom);
@@ -116,8 +120,32 @@ class WebSocketApiService {
       this.createdRoom = null;
     }
   }
+  exitLobby(uniqId: string) {
+    if (this.createdRoom) {
+      const { user } = store.getState().user;
+      const exitLobby: UserSocket = {
+        login: user.login,
+        imgUrl: user.imgUrl,
+        id: uniqId,
+        type: TYPE_WEBSOCKET_ROOM_EXIT,
+      };
+      this.send(exitLobby);
+      this.createdRoom = null;
+    }
+  }
   send(data: UserSocket | GameSettings) {
     this.socket?.send(JSON.stringify(data));
+  }
+  connectToRoom(id: string) {
+    const { user } = store.getState().user;
+
+    const connectUser: UserSocket = {
+      type: TYPE_WEBSOCKET_ROOM_CONNECT,
+      login: user.login,
+      imgUrl: user.imgUrl,
+      id,
+    };
+    this.send(connectUser);
   }
   exit() {
     const { user } = store.getState().user;

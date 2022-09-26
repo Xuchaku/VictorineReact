@@ -29,9 +29,10 @@ export const POINT_API_GET_USER = "/user/info";
 export const POINT_API_SET_USER = "/user/setinfo";
 
 export const POINT_WEBSOCKET = "ws://localhost:7777";
-
 export const TYPE_WEBSOCKET_CONNECT = "connect";
 export const TYPE_WEBSOCKET_ONLINE = "online";
 export const TYPE_WEBSOCKET_EXIT = "exit";
 export const TYPE_WEBSOCKET_CREATE_ROOM = "create/room";
 export const TYPE_WEBSOCKET_GET_ROOMS = "get/rooms";
+export const TYPE_WEBSOCKET_ROOM_CONNECT = "connect/room";
+export const TYPE_WEBSOCKET_ROOM_EXIT = "exit/room";

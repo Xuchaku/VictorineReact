@@ -4,16 +4,17 @@ import "./Menu.scss";
 import { useContext } from "react";
 import WebSocketContext from "../../context/WebSocketContext";
 import { useNavigate } from "react-router-dom";
-import { setGameSettings } from "../../store/gameSlice/gameSlice";
+import { setGameSettings, setIdGame } from "../../store/gameSlice/gameSlice";
 import { useAppDispatch } from "../../store/store";
 import { Categories } from "../../constants/constants";
 import Categorie from "../../types/Categorie/Categorie";
 import Settings from "../../types/Settings/Settings";
 import Input from "../../UI/Input/Input";
-import { isValidNumeric } from "../../utils";
+import { hashRoom, isValidNumeric } from "../../utils";
 import { generateRandomColor } from "../../utils";
 import ErrorMessage from "../../UI/ErrorMessage/ErrorMessage";
 import { TOTAL_STEP_MENU } from "../../constants/constants";
+import { useAppSelector } from "./../../store/store";
 
 const Menu = () => {
   const socket = useContext(WebSocketContext);
@@ -23,6 +24,7 @@ const Menu = () => {
     mode: "public",
     players: "2",
   });
+  const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const [isError, setIsError] = useState(false);
   const [step, setStep] = useState(0);
@@ -54,7 +56,9 @@ const Menu = () => {
       setIsError(false);
       setStep(step + 1);
       dispatch(setGameSettings(settings));
-      socket?.createRoom(settings);
+      const id = hashRoom(user.login, new Date());
+      dispatch(setIdGame(id));
+      socket?.createRoom(settings, id);
       navigate("/lobby");
     } else {
       setIsError(true);

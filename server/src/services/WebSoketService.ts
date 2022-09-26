@@ -25,15 +25,63 @@ export class WebSocketServer {
           case "create/room": {
             const roomSettings: GameSettings = fromUser as GameSettings;
             this.rooms.push(roomSettings);
-            this.broadcastMessageExcludeOne(
-              { room: roomSettings, type: "create/room" },
-              ws
-            );
+            this.broadcastMessage({ room: roomSettings, type: "create/room" });
             break;
           }
           case "get/rooms": {
             ws.send(JSON.stringify({ rooms: this.rooms, type: "get/rooms" }));
             //this.broadcastMessage({rooms: this.rooms, type: })
+            break;
+          }
+          case "exit/room": {
+            const user = fromUser as UserSocket;
+            const findRoom = this.rooms.find((room) => {
+              return room.uniqId == user.id;
+            });
+            if (findRoom) {
+              const isHost = findRoom.host == user.login;
+              if (isHost) {
+                const roomsExcludeOne = this.rooms.filter((room) => {
+                  return room.uniqId != user.id;
+                });
+                this.rooms = roomsExcludeOne;
+                this.broadcastMessage({ rooms: this.rooms, type: "get/rooms" });
+                // this.broadcastMessageExcludeOne(
+                //   { rooms: this.rooms, type: "get/rooms" },
+                //   ws
+                // );
+              }
+            }
+            break;
+          }
+          case "connect/room": {
+            const user = fromUser as UserSocket;
+            const loginsArr = this.rooms.map((room) => {
+              return room.currentPlayers;
+            });
+            const logins = [];
+            for (const loginArr of loginsArr) {
+              logins.push(...loginArr);
+            }
+            const findUser = logins.find((currentLogin) => {
+              return currentLogin.login == user.login;
+            });
+            if (findUser) {
+              // не добавлять
+            } else {
+              const roomById = this.rooms.find((room) => {
+                return room.uniqId == user.id;
+              });
+              if (
+                roomById &&
+                roomById.countPlayer != Number(roomById.players)
+              ) {
+                roomById.currentPlayers.push(user);
+                roomById.countPlayer += 1;
+                this.broadcastMessage({ rooms: this.rooms, type: "get/rooms" });
+              }
+            }
+
             break;
           }
         }
@@ -51,10 +99,11 @@ export class WebSocketServer {
               return room.uniqId != uniqId;
             });
             this.rooms = roomsExcludeOne;
-            this.broadcastMessageExcludeOne(
-              { rooms: this.rooms, type: "get/rooms" },
-              ws
-            );
+            // this.broadcastMessageExcludeOne(
+            //   { rooms: this.rooms, type: "get/rooms" },
+            //   ws
+            // );
+            this.broadcastMessage({ rooms: this.rooms, type: "get/rooms" });
             break;
           }
           default:

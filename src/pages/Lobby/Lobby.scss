@@ -11,6 +11,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    img {
+      @extend %img-structure-minor;
+      border: 2px solid $border-purple;
+    }
+    img:first-child {
+      border: 3px solid $border-gold;
+    }
   }
   h2 {
     font-size: 48px;
