@@ -98,6 +98,7 @@ class WebSocketApiService {
         }
         case TYPE_WEBSOCKET_GET_DATA_PLAY: {
           const questions = data.dataForGame as QuestionLocal[];
+          console.log(questions);
           const uniqId = data.uniqId;
           store.dispatch(setQuestions(questions));
           store.dispatch(setReadyForQuestions(true));

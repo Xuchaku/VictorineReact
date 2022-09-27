@@ -7,6 +7,22 @@
       "mvpLogin": "Blabla",
       "shortestTime": 8900,
       "timeToThink": 10000
+    },
+    {
+      "trueName": "Атака титанов 2",
+      "imgUrl": "",
+      "closeNames": ["Attak of titans", "атака титанов", "ataka titanov"],
+      "mvpLogin": "Blabla",
+      "shortestTime": 8901,
+      "timeToThink": 8000
+    },
+    {
+      "trueName": "Атака титанов 3",
+      "imgUrl": "",
+      "closeNames": ["Attak of titans", "атака титанов", "ataka titanov"],
+      "mvpLogin": "Blabla",
+      "shortestTime": 8902,
+      "timeToThink": 5000
     }
   ]
 }

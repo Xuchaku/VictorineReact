@@ -117,15 +117,18 @@ export class WebSocketServer {
                 questions: data,
               };
               this.games.push(newGame);
+              const dataForUser = [];
+              for (const question of data) {
+                const { imgUrl, mvpLogin, shortestTime, timeToThink } =
+                  question;
+                dataForUser.push({
+                  imgUrl,
+                  mvpLogin,
+                  shortestTime,
+                  timeToThink,
+                });
+              }
 
-              const { imgUrl, mvpLogin, shortestTime, timeToThink } = data;
-
-              const dataForUser = {
-                imgUrl,
-                mvpLogin,
-                shortestTime,
-                timeToThink,
-              };
               this.broadcastMessage({
                 dataForGame: dataForUser,
                 uniqId: newGame.uniqId,
