@@ -19,7 +19,10 @@ import QuestionLocal from "../../types/QuestionLocal/QuestionLocal";
 const Game = () => {
   const navigate = useNavigate();
   const socket = useContext(WebSocketContext);
-  const { isReady, questions } = useAppSelector((state) => state.questions);
+  const { isReady, questions, uniqId, currentQuestionNumber } = useAppSelector(
+    (state) => state.questions
+  );
+  const [currentDate, setCurrentDate] = useState<null | Date>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const { isAuth } = useAppSelector((state) => state.user);
   const [answer, setAnswer] = useState("");
@@ -29,6 +32,7 @@ const Game = () => {
       navigate("/results");
     }
     if (questions.length > 0) {
+      setCurrentDate(new Date());
       return questions[currentSlide];
     } else return null;
   }, [currentSlide, questions]);
@@ -46,7 +50,11 @@ const Game = () => {
   }, [currentSlide, currentQuestion]);
 
   function sendAnswerHandler() {
-    if (answer) {
+    if (answer && currentQuestion?.id) {
+      if (currentDate) {
+        const time = new Date().getTime() - currentDate.getTime();
+        socket?.answer(uniqId, currentQuestion.id, answer, time);
+      }
     }
   }
   function answerChangeHandler(event: ChangeEvent<HTMLInputElement>) {
@@ -62,6 +70,10 @@ const Game = () => {
   useEffect(() => {
     if (!isAuth || !isReady) navigate("/");
   }, [isAuth, isReady]);
+
+  useEffect(() => {
+    console.log(currentQuestionNumber);
+  }, [currentQuestionNumber]);
 
   return currentQuestion ? (
     <div className="Game">

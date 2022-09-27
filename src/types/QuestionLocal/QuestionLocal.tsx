@@ -3,5 +3,6 @@ type QuestionLocal = {
   mvpLogin: string;
   shortestTime: number;
   timeToThink: number;
+  id: string;
 };
 export default QuestionLocal;

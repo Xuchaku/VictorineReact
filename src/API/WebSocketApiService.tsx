@@ -7,6 +7,8 @@ import {
   TYPE_WEBSOCKET_ROOM_LEAVE,
   TYPE_WEBSOCKET_ROOM_READY,
   TYPE_WEBSOCKET_GET_DATA_PLAY,
+  TYPE_WEBSOCKET_CHECK_ANSWER,
+  TYPE_WEBSOCKET_NEXT_QUESTION,
 } from "../constants/constants";
 import UserSocket from "../types/UserSocket/UserSocket";
 import store from "../store/store";
@@ -27,9 +29,12 @@ import GameSettings from "../types/GameSettings/GameSettings";
 import QuestionLocal from "../types/QuestionLocal/QuestionLocal";
 import {
   setIdQuestions,
+  setQuestionNumber,
   setQuestions,
   setReadyForQuestions,
 } from "../store/questionsSlice/questionsSlice";
+import AnswerUser from "../types/AnswerUser/AnswerUser";
+import AfterAnswer from "../types/AfterAnswer/AfterAnswer";
 class WebSocketApiService {
   private socket: WebSocket | null = null;
   private createdRoom: GameSettings | null = null;
@@ -105,6 +110,15 @@ class WebSocketApiService {
           store.dispatch(setIdQuestions(uniqId));
           break;
         }
+        case TYPE_WEBSOCKET_NEXT_QUESTION: {
+          const { nextQuestion, gameId } = data as AfterAnswer;
+          const { uniqId } = store.getState().questions;
+          console.log("here");
+          if (uniqId == gameId) {
+            store.dispatch(setQuestionNumber(nextQuestion));
+          }
+          break;
+        }
         default:
           break;
       }
@@ -113,6 +127,18 @@ class WebSocketApiService {
     this.socket.onclose = (event) => {};
 
     this.socket.onerror = (error) => {};
+  }
+  answer(idGame: string, idQuestion: string, answer: string, time: number) {
+    const { user } = store.getState().user;
+    const answerFromUser: AnswerUser = {
+      login: user.login,
+      idGame,
+      idQuestion,
+      answer,
+      time,
+      type: TYPE_WEBSOCKET_CHECK_ANSWER,
+    };
+    this.send(answerFromUser);
   }
   createRoom(settings: Settings, id: string) {
     const { user } = store.getState().user;
@@ -167,7 +193,7 @@ class WebSocketApiService {
       this.createdRoom = null;
     }
   }
-  send(data: UserSocket | GameSettings) {
+  send(data: any) {
     this.socket?.send(JSON.stringify(data));
   }
   connectToRoom(id: string) {

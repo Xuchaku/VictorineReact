@@ -5,7 +5,8 @@
       "imgUrl": "",
       "closeNames": ["Attak of titans", "атака титанов", "ataka titanov"],
       "mvpLogin": "Blabla",
-      "shortestTime": 8900,
+      "id": "1111",
+      "shortestTime": 3000,
       "timeToThink": 10000
     },
     {
@@ -13,7 +14,8 @@
       "imgUrl": "",
       "closeNames": ["Attak of titans", "атака титанов", "ataka titanov"],
       "mvpLogin": "Blabla",
-      "shortestTime": 8901,
+      "id": "2222",
+      "shortestTime": 3000,
       "timeToThink": 8000
     },
     {
@@ -21,7 +23,8 @@
       "imgUrl": "",
       "closeNames": ["Attak of titans", "атака титанов", "ataka titanov"],
       "mvpLogin": "Blabla",
-      "shortestTime": 8902,
+      "id": "3333",
+      "shortestTime": 3000,
       "timeToThink": 5000
     }
   ]

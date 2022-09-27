@@ -3,9 +3,11 @@ import fs from "fs";
 import UserSocket from "../types/UserSocket";
 import GameSettings from "../types/GameSettings";
 import {
+  TYPE_WEBSOCKET_CHECK_ANSWER,
   TYPE_WEBSOCKET_CONNECT,
   TYPE_WEBSOCKET_CREATE_ROOM,
   TYPE_WEBSOCKET_EXIT,
+  TYPE_WEBSOCKET_GET_DATA_PLAY,
   TYPE_WEBSOCKET_GET_ROOMS,
   TYPE_WEBSOCKET_ONLINE,
   TYPE_WEBSOCKET_ROOM_CONNECT,
@@ -14,6 +16,7 @@ import {
   TYPE_WEBSOCKET_ROOM_READY,
 } from "../constants/constants";
 import Game from "../types/Game";
+import AnswerUser from "../types/AnswerUser";
 export class WebSocketServer {
   private wss: Server<WebSocket> | null = null;
   private rooms: GameSettings[] = [];
@@ -95,6 +98,48 @@ export class WebSocketServer {
             }
             break;
           }
+          case TYPE_WEBSOCKET_CHECK_ANSWER: {
+            const { login, idGame, idQuestion, answer, time } =
+              fromUser as AnswerUser;
+            const purposeGame = this.games.find((game) => {
+              return game.uniqId == idGame;
+            });
+            if (purposeGame) {
+              const { questions } = purposeGame;
+              const purposeQuestion = questions.find((question) => {
+                return question.id == idQuestion;
+              });
+              const purposeQuestionIndex = questions.findIndex((question) => {
+                return question.id == idQuestion;
+              });
+              if (purposeQuestion) {
+                const isTruthAnswer =
+                  purposeQuestion.trueName.toLocaleLowerCase() ==
+                    answer.toLocaleLowerCase() ||
+                  purposeQuestion.closeNames.includes(
+                    answer.toLocaleLowerCase()
+                  );
+                if (isTruthAnswer) {
+                  const isFaster = purposeQuestion.shortestTime > time;
+                  console.log(purposeQuestion.shortestTime, time);
+                  if (isFaster) {
+                    //назначаем нового самого быстрого
+                  } else {
+                    //просто даем сигнал
+                    console.log("TRUTH");
+
+                    this.broadcastMessage({
+                      gameId: purposeGame.uniqId,
+                      nextQuestion: purposeQuestionIndex + 1,
+                      type: "next/question",
+                    });
+                  }
+                }
+                ////////
+              }
+            }
+            break;
+          }
           case TYPE_WEBSOCKET_ROOM_READY: {
             const user = fromUser as UserSocket;
             const purposeRoom = this.rooms.find((room) => {
@@ -119,20 +164,21 @@ export class WebSocketServer {
               this.games.push(newGame);
               const dataForUser = [];
               for (const question of data) {
-                const { imgUrl, mvpLogin, shortestTime, timeToThink } =
+                const { imgUrl, mvpLogin, shortestTime, timeToThink, id } =
                   question;
                 dataForUser.push({
                   imgUrl,
                   mvpLogin,
                   shortestTime,
                   timeToThink,
+                  id,
                 });
               }
 
               this.broadcastMessage({
                 dataForGame: dataForUser,
                 uniqId: newGame.uniqId,
-                type: "get/data/play",
+                type: TYPE_WEBSOCKET_GET_DATA_PLAY,
               });
               break;
             }

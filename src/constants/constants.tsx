@@ -39,3 +39,5 @@ export const TYPE_WEBSOCKET_ROOM_EXIT = "exit/room";
 export const TYPE_WEBSOCKET_ROOM_LEAVE = "leave/room";
 export const TYPE_WEBSOCKET_ROOM_READY = "ready/room";
 export const TYPE_WEBSOCKET_GET_DATA_PLAY = "get/data/play";
+export const TYPE_WEBSOCKET_CHECK_ANSWER = "check/answer";
+export const TYPE_WEBSOCKET_NEXT_QUESTION = "next/question";
