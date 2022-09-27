@@ -4,12 +4,14 @@ import userReducer from "./userSlice/userSlice";
 import playersReducer from "./playersSlice/playersSlice";
 import gameReducer from "./gameSlice/gameSlice";
 import roomsReducer from "./roomsSlice/roomsSlice";
+import questionsReducer from "./questionsSlice/questionsSlice";
 const store = configureStore({
   reducer: {
     user: userReducer,
     players: playersReducer,
     game: gameReducer,
     rooms: roomsReducer,
+    questions: questionsReducer,
   },
 });
 export default store;

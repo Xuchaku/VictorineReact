@@ -1,0 +1,16 @@
+@import "./../../Global/style/Global.scss";
+.Progress {
+  height: 10px;
+  width: 0;
+  background-color: $border-purple;
+  border-radius: 12px;
+}
+
+@keyframes progress {
+  from {
+    width: 0;
+  }
+  to {
+    width: 400px;
+  }
+}

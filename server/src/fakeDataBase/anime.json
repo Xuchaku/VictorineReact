@@ -1,0 +1,12 @@
+{
+  "data": [
+    {
+      "trueName": "Атака титанов",
+      "imgUrl": "",
+      "closeNames": ["Attak of titans", "атака титанов", "ataka titanov"],
+      "mvpLogin": "Blabla",
+      "shortestTime": 8900,
+      "timeToThink": 10000
+    }
+  ]
+}

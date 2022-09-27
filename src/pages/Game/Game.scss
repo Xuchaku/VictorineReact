@@ -2,6 +2,35 @@
 .Game {
   background-color: $background-structure;
   display: flex;
+  min-height: 600px;
   flex-direction: column;
+  font-family: $font-family-header;
   @extend %structure;
+  align-items: center;
+  & > p {
+    font-size: 48px;
+  }
+  & > div {
+    display: flex;
+    flex-direction: column;
+    img {
+      width: 400px;
+      height: 350px;
+      border: 2px solid $border-purple;
+      border-radius: 6px;
+      margin-bottom: 5px;
+    }
+    p {
+      font-size: $font-size-header;
+    }
+    div {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      margin-top: 20px;
+      input {
+        margin-right: 20px;
+      }
+    }
+  }
 }

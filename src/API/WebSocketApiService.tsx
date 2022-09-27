@@ -6,16 +6,16 @@ import {
   TYPE_WEBSOCKET_ROOM_EXIT,
   TYPE_WEBSOCKET_ROOM_LEAVE,
   TYPE_WEBSOCKET_ROOM_READY,
+  TYPE_WEBSOCKET_GET_DATA_PLAY,
 } from "../constants/constants";
 import UserSocket from "../types/UserSocket/UserSocket";
 import store from "../store/store";
-import Player from "../types/Player/Player";
 import {
   TYPE_WEBSOCKET_CONNECT,
   TYPE_WEBSOCKET_ONLINE,
   TYPE_WEBSOCKET_EXIT,
 } from "../constants/constants";
-import { findInStore, hashRoom } from "../utils";
+import { findInStore } from "../utils";
 import { setRoom, setRooms } from "../store/roomsSlice/roomsSlice";
 import {
   setPlayer,
@@ -24,6 +24,12 @@ import {
 } from "../store/playersSlice/playersSlice";
 import Settings from "../types/Settings/Settings";
 import GameSettings from "../types/GameSettings/GameSettings";
+import QuestionLocal from "../types/QuestionLocal/QuestionLocal";
+import {
+  setIdQuestions,
+  setQuestions,
+  setReadyForQuestions,
+} from "../store/questionsSlice/questionsSlice";
 class WebSocketApiService {
   private socket: WebSocket | null = null;
   private createdRoom: GameSettings | null = null;
@@ -88,6 +94,14 @@ class WebSocketApiService {
         case TYPE_WEBSOCKET_GET_ROOMS: {
           const rooms = data.rooms as GameSettings[];
           store.dispatch(setRooms(rooms));
+          break;
+        }
+        case TYPE_WEBSOCKET_GET_DATA_PLAY: {
+          const questions = data.dataForGame as QuestionLocal[];
+          const uniqId = data.uniqId;
+          store.dispatch(setQuestions(questions));
+          store.dispatch(setReadyForQuestions(true));
+          store.dispatch(setIdQuestions(uniqId));
           break;
         }
         default:

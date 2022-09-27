@@ -3,7 +3,11 @@ import UserInfo from "../../types/UserInfo/UserInfo";
 import { api } from "../../API";
 import { AppDispatch } from "../store";
 
-const initialState = {
+const initialState: {
+  isAuth: boolean;
+  isLoading: boolean;
+  user: UserInfo;
+} = {
   isAuth: false,
   isLoading: true,
   user: {

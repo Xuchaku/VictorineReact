@@ -1,4 +1,5 @@
 import ws, { Server, WebSocket } from "ws";
+import fs from "fs";
 import UserSocket from "../types/UserSocket";
 import GameSettings from "../types/GameSettings";
 import {
@@ -12,9 +13,11 @@ import {
   TYPE_WEBSOCKET_ROOM_LEAVE,
   TYPE_WEBSOCKET_ROOM_READY,
 } from "../constants/constants";
+import Game from "../types/Game";
 export class WebSocketServer {
   private wss: Server<WebSocket> | null = null;
   private rooms: GameSettings[] = [];
+  private games: Game[] = [];
   constructor(port: number) {
     this.wss = new ws.Server({ port: port });
     this.wss.on("connection", (ws) => {
@@ -99,6 +102,36 @@ export class WebSocketServer {
             });
             if (purposeRoom) {
               purposeRoom.countReadyForGame += 1;
+            }
+            if (
+              purposeRoom?.countReadyForGame == Number(purposeRoom?.players)
+            ) {
+              const { data } = JSON.parse(
+                fs.readFileSync(
+                  __dirname + `/../fakeDataBase/${purposeRoom.categorie}.json`,
+                  "utf8"
+                )
+              );
+              const newGame: Game = {
+                uniqId: purposeRoom.host + purposeRoom.uniqId,
+                questions: data,
+              };
+              this.games.push(newGame);
+
+              const { imgUrl, mvpLogin, shortestTime, timeToThink } = data;
+
+              const dataForUser = {
+                imgUrl,
+                mvpLogin,
+                shortestTime,
+                timeToThink,
+              };
+              this.broadcastMessage({
+                dataForGame: dataForUser,
+                uniqId: newGame.uniqId,
+                type: "get/data/play",
+              });
+              break;
             }
             this.broadcastMessage({
               rooms: this.rooms,

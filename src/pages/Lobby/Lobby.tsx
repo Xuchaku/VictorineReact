@@ -13,6 +13,7 @@ const Lobby = () => {
   const socket = useContext(WebSocketContext);
   const [isInit, setIsInit] = useState(false);
   const navigate = useNavigate();
+  const { isReady } = useAppSelector((state) => state.questions);
   const { isAuth, user } = useAppSelector((state) => state.user);
   const { activeRooms } = useAppSelector((state) => state.rooms);
   const { id } = useAppSelector((state) => state.game);
@@ -72,9 +73,10 @@ const Lobby = () => {
     }
   }, [activeRooms, id]);
   useLayoutEffect(() => {
+    if (isReady) navigate("/game");
     if (!lobby && isInit) navigate("/");
     if (!isAuth) navigate("/");
-  }, [lobby, isInit, isAuth]);
+  }, [lobby, isInit, isAuth, isReady]);
 
   return (
     <div className="Lobby">
