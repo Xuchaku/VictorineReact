@@ -9,15 +9,17 @@ import React, {
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import WebSocketContext from "../../context/WebSocketContext";
-import { useAppSelector } from "../../store/store";
+import { useAppSelector, useAppDispatch } from "../../store/store";
 import Button from "../../UI/Button/Button";
 import Input from "../../UI/Input/Input";
 import Progress from "../../UI/Progress/Progress";
 
 import "./Game.scss";
 import QuestionLocal from "../../types/QuestionLocal/QuestionLocal";
+import { setQuestionNumber } from "../../store/questionsSlice/questionsSlice";
 const Game = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const socket = useContext(WebSocketContext);
   const { isReady, questions, uniqId, currentQuestionNumber } = useAppSelector(
     (state) => state.questions
@@ -26,16 +28,18 @@ const Game = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const { isAuth } = useAppSelector((state) => state.user);
   const [answer, setAnswer] = useState("");
-
+  const [timeOut, setTimeOut] = useState<null | ReturnType<typeof setTimeout>>(
+    null
+  );
   const currentQuestion: QuestionLocal | null = useMemo(() => {
-    if (questions.length == currentSlide) {
+    if (questions.length == currentQuestionNumber) {
       navigate("/results");
     }
     if (questions.length > 0) {
       setCurrentDate(new Date());
-      return questions[currentSlide];
+      return questions[currentQuestionNumber];
     } else return null;
-  }, [currentSlide, questions]);
+  }, [currentQuestionNumber, questions]);
 
   const currentProgress = useMemo(() => {
     const uniqKey = Math.random();
@@ -47,7 +51,7 @@ const Game = () => {
         ></Progress>
       );
     else return null;
-  }, [currentSlide, currentQuestion]);
+  }, [currentQuestionNumber, currentQuestion]);
 
   function sendAnswerHandler() {
     if (answer && currentQuestion?.id) {
@@ -61,26 +65,29 @@ const Game = () => {
     setAnswer(event.target.value);
   }
   useEffect(() => {
-    const idTimeOut = setTimeout(() => {
-      setCurrentSlide((prev) => prev + 1);
-      clearTimeout(idTimeOut);
-    }, currentQuestion?.timeToThink);
-  }, [currentQuestion]);
+    setTimeOut(
+      setTimeout(() => {
+        dispatch(setQuestionNumber(currentQuestionNumber + 1));
+        setCurrentSlide((prev) => prev + 1);
+      }, currentQuestion?.timeToThink)
+    );
+  }, [currentQuestion, currentQuestionNumber]);
+  useEffect(() => {
+    if (currentQuestionNumber - currentSlide == 2 && timeOut) {
+      clearInterval(timeOut);
+    }
+  }, [currentQuestionNumber]);
 
   useEffect(() => {
     if (!isAuth || !isReady) navigate("/");
   }, [isAuth, isReady]);
-
-  useEffect(() => {
-    console.log(currentQuestionNumber);
-  }, [currentQuestionNumber]);
 
   return currentQuestion ? (
     <div className="Game">
       <p>Категория</p>
       <div>
         <p>
-          {currentSlide + 1}/{questions.length}
+          {currentQuestionNumber + 1}/{questions.length}
         </p>
         <img src={currentQuestion.imgUrl} />
         {currentProgress}
