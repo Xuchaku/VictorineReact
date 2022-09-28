@@ -121,21 +121,23 @@ export class WebSocketServer {
                   );
                 if (isTruthAnswer) {
                   const isFaster = purposeQuestion.shortestTime > time;
-                  console.log(purposeQuestion.shortestTime, time);
-                  if (isFaster) {
-                    //назначаем нового самого быстрого
-                  } else {
-                    //просто даем сигнал
-                    console.log("TRUTH");
 
-                    this.broadcastMessage({
-                      gameId: purposeGame.uniqId,
-                      nextQuestion: purposeQuestionIndex + 1,
-                      type: "next/question",
-                    });
+                  if (isFaster) {
+                    purposeQuestion.shortestTime = time;
+                    purposeQuestion.mvpLogin = login;
+                    const dataForFile = JSON.stringify({ data: questions });
+                    const out = fs.writeFileSync(
+                      __dirname +
+                        `/../fakeDataBase/${purposeGame.categorie}.json`,
+                      dataForFile
+                    );
                   }
+                  this.broadcastMessage({
+                    gameId: purposeGame.uniqId,
+                    nextQuestion: purposeQuestionIndex + 1,
+                    type: "next/question",
+                  });
                 }
-                ////////
               }
             }
             break;
@@ -160,6 +162,7 @@ export class WebSocketServer {
               const newGame: Game = {
                 uniqId: purposeRoom.host + purposeRoom.uniqId,
                 questions: data,
+                categorie: purposeRoom.categorie,
               };
               this.games.push(newGame);
               const dataForUser = [];

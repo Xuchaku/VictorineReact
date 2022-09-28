@@ -103,7 +103,7 @@ class UserController {
         });
       } else {
         const hashPassword = crypto
-          .createHmac("sha256", "SECRETS123")
+          .createHmac("sha256", process.env.PASSWORD_SECRET || "")
           .update(password)
           .digest("hex");
         const newUser: User = {
@@ -156,7 +156,7 @@ class UserController {
         });
       } else {
         const verifyPass = crypto
-          .createHmac("sha256", "SECRETS123")
+          .createHmac("sha256", process.env.PASSWORD_SECRET || "")
           .update(password)
           .digest("hex");
         if (verifyPass == findUser.hashPassword) {

@@ -4,10 +4,13 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { errorMiddleware } from "./middlewares/error-middleware";
 import { WebSocketServer } from "./services/WebSoketService";
+import dotenv from "dotenv";
 const app = express();
-const ws = new WebSocketServer(7777);
+dotenv.config();
+
+const ws = new WebSocketServer(Number(process.env.WEBSOCKET_PORT));
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: process.env.CLIENT_ORIGIN,
   credentials: true,
   optionsSuccessStatus: 200,
 };
@@ -19,6 +22,6 @@ app.use(cookieParser());
 app.use("/user", userRouter);
 app.use(errorMiddleware);
 
-app.listen(8000, () => {
+app.listen(Number(process.env.EXPRESS_PORT), () => {
   console.log("Start develop server");
 });
