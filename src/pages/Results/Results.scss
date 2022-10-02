@@ -1,0 +1,8 @@
+@import "./../../Global/style/Global.scss";
+.Results {
+  @extend %structure;
+  background-color: $background-structure;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

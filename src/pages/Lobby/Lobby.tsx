@@ -18,6 +18,7 @@ const Lobby = () => {
   const { activeRooms } = useAppSelector((state) => state.rooms);
   const { id } = useAppSelector((state) => state.game);
   const [lobby, setLobby] = useState<GameSettings | null>(null);
+
   function exitLobbyHandler() {
     if (lobby?.uniqId && lobby.host == user.login) {
       socket?.exitLobby(lobby?.uniqId);
@@ -36,6 +37,7 @@ const Lobby = () => {
     }
   }
   useEffect(() => {
+    console.log("!!!!", activeRooms);
     const findRoom = activeRooms.find((room) => {
       return room.uniqId == id;
     });

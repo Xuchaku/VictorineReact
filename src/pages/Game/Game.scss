@@ -23,6 +23,12 @@
     p {
       font-size: $font-size-header;
     }
+    p.wrong {
+      color: red;
+    }
+    p.correct {
+      color: rgb(47, 189, 47);
+    }
     div {
       display: flex;
       flex-direction: row;

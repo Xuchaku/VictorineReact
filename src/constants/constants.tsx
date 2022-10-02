@@ -41,3 +41,6 @@ export const TYPE_WEBSOCKET_ROOM_READY = "ready/room";
 export const TYPE_WEBSOCKET_GET_DATA_PLAY = "get/data/play";
 export const TYPE_WEBSOCKET_CHECK_ANSWER = "check/answer";
 export const TYPE_WEBSOCKET_NEXT_QUESTION = "next/question";
+export const TYPE_WEBSOCKET_CORRECT_ANSWER = "correct/answer";
+export const TYPE_WEBSOCKET_WRONG_ANSWER = "wrong/answer";
+export const TYPE_WEBSOCKET_GET_RESULT = "result/game";

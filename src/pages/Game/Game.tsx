@@ -17,6 +17,7 @@ import Progress from "../../UI/Progress/Progress";
 import "./Game.scss";
 import QuestionLocal from "../../types/QuestionLocal/QuestionLocal";
 import { setQuestionNumber } from "../../store/questionsSlice/questionsSlice";
+import { setStatus } from "../../store/scoreSlice/scoreSlice";
 const Game = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -24,6 +25,7 @@ const Game = () => {
   const { isReady, questions, uniqId, currentQuestionNumber } = useAppSelector(
     (state) => state.questions
   );
+  const { status } = useAppSelector((state) => state.score);
   const [currentDate, setCurrentDate] = useState<null | Date>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const { isAuth } = useAppSelector((state) => state.user);
@@ -31,9 +33,19 @@ const Game = () => {
   const [timeOut, setTimeOut] = useState<null | ReturnType<typeof setTimeout>>(
     null
   );
+
+  const statusAnswer = useMemo(() => {
+    if (status.type) {
+      return <p className={status.type}>{status.text}</p>;
+    } else {
+      return null;
+    }
+  }, [status]);
+
   const currentQuestion: QuestionLocal | null = useMemo(() => {
     if (questions.length == currentQuestionNumber) {
       navigate("/results");
+      socket?.result(uniqId);
     }
     if (questions.length > 0) {
       setCurrentDate(new Date());
@@ -68,12 +80,15 @@ const Game = () => {
     setTimeOut(
       setTimeout(() => {
         dispatch(setQuestionNumber(currentQuestionNumber + 1));
+        dispatch(setStatus({ type: "", text: "" }));
+        setAnswer("");
         setCurrentSlide((prev) => prev + 1);
       }, currentQuestion?.timeToThink)
     );
   }, [currentQuestion, currentQuestionNumber]);
   useEffect(() => {
     if (currentQuestionNumber - currentSlide == 2 && timeOut) {
+      setAnswer("");
       clearInterval(timeOut);
     }
   }, [currentQuestionNumber]);
@@ -92,6 +107,7 @@ const Game = () => {
         <img src={currentQuestion.imgUrl} />
         {currentProgress}
         <p>Введите ваш ответ</p>
+        {statusAnswer}
         <div>
           <Input
             type="text"

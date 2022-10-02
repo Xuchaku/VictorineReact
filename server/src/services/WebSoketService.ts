@@ -17,6 +17,8 @@ import {
 } from "../constants/constants";
 import Game from "../types/Game";
 import AnswerUser from "../types/AnswerUser";
+import Results from "../types/Results";
+import Achive from "./../types/Achive";
 export class WebSocketServer {
   private wss: Server<WebSocket> | null = null;
   private rooms: GameSettings[] = [];
@@ -29,7 +31,7 @@ export class WebSocketServer {
         switch (fromUser.type) {
           case TYPE_WEBSOCKET_CONNECT: {
             this.broadcastMessageExcludeOne(fromUser as UserSocket, ws);
-            this.clearRoomByHost(fromUser as UserSocket);
+            //this.clearRoomByHost(fromUser as UserSocket);
             break;
           }
           case TYPE_WEBSOCKET_ONLINE:
@@ -68,6 +70,7 @@ export class WebSocketServer {
                   return room.uniqId != user.id;
                 });
                 this.rooms = roomsExcludeOne;
+
                 this.broadcastMessage({
                   rooms: this.rooms,
                   type: TYPE_WEBSOCKET_GET_ROOMS,
@@ -91,6 +94,7 @@ export class WebSocketServer {
                   return player.login != user.login;
                 }
               );
+
               this.broadcastMessage({
                 rooms: this.rooms,
                 type: TYPE_WEBSOCKET_GET_ROOMS,
@@ -120,11 +124,23 @@ export class WebSocketServer {
                     answer.toLocaleLowerCase()
                   );
                 if (isTruthAnswer) {
+                  const findUserResult = purposeGame.results.find((result) => {
+                    return result.user == login;
+                  });
+                  if (findUserResult) {
+                    findUserResult.score += 1;
+                  }
                   const isFaster = purposeQuestion.shortestTime > time;
-
                   if (isFaster) {
+                    const achive: Achive = {
+                      login,
+                      time,
+                      quetionNumber: purposeQuestionIndex + 1,
+                    };
+                    findUserResult?.achivements.push(achive);
                     purposeQuestion.shortestTime = time;
                     purposeQuestion.mvpLogin = login;
+
                     const dataForFile = JSON.stringify({ data: questions });
                     const out = fs.writeFileSync(
                       __dirname +
@@ -137,8 +153,26 @@ export class WebSocketServer {
                     nextQuestion: purposeQuestionIndex + 1,
                     type: "next/question",
                   });
+                  ws.send(JSON.stringify({ type: "correct/answer", time }));
+                } else {
+                  ws.send(JSON.stringify({ type: "wrong/answer" }));
                 }
               }
+            }
+            break;
+          }
+          case "result/game": {
+            const { idGame } = fromUser;
+            const purposeGame = this.games.find((game) => {
+              return game.uniqId == idGame;
+            });
+            if (purposeGame) {
+              ws.send(
+                JSON.stringify({
+                  type: "result/game",
+                  results: purposeGame.results,
+                })
+              );
             }
             break;
           }
@@ -159,10 +193,16 @@ export class WebSocketServer {
                   "utf8"
                 )
               );
+              const initResults: Results[] = purposeRoom.currentPlayers.map(
+                (user) => {
+                  return { user: user.login, score: 0, achivements: [] };
+                }
+              );
               const newGame: Game = {
                 uniqId: purposeRoom.host + purposeRoom.uniqId,
                 questions: data,
                 categorie: purposeRoom.categorie,
+                results: initResults,
               };
               this.games.push(newGame);
               const dataForUser = [];
@@ -185,6 +225,7 @@ export class WebSocketServer {
               });
               break;
             }
+
             this.broadcastMessage({
               rooms: this.rooms,
               type: TYPE_WEBSOCKET_GET_ROOMS,
@@ -214,6 +255,7 @@ export class WebSocketServer {
               ) {
                 roomById.currentPlayers.push(user);
                 roomById.countPlayer += 1;
+
                 this.broadcastMessage({
                   rooms: this.rooms,
                   type: TYPE_WEBSOCKET_GET_ROOMS,
@@ -236,6 +278,7 @@ export class WebSocketServer {
               return room.uniqId != uniqId;
             });
             this.rooms = roomsExcludeOne;
+
             this.broadcastMessage({
               rooms: this.rooms,
               type: TYPE_WEBSOCKET_GET_ROOMS,
@@ -248,16 +291,17 @@ export class WebSocketServer {
       };
     });
   }
-  clearRoomByHost(user: UserSocket) {
-    const roomsExcludeOne = this.rooms.filter((room) => {
-      return user.login != room.host;
-    });
-    this.rooms = roomsExcludeOne;
-    this.broadcastMessage({
-      rooms: this.rooms,
-      type: TYPE_WEBSOCKET_GET_ROOMS,
-    });
-  }
+  // clearRoomByHost(user: UserSocket) {
+  //   const roomsExcludeOne = this.rooms.filter((room) => {
+  //     return user.login != room.host;
+  //   });
+  //   this.rooms = roomsExcludeOne;
+  //   console.log(this.rooms);
+  //   this.broadcastMessage({
+  //     rooms: this.rooms,
+  //     type: TYPE_WEBSOCKET_GET_ROOMS,
+  //   });
+  // }
   broadcastMessage(data: any) {
     this.wss?.clients.forEach((client) => {
       client.send(JSON.stringify(data));

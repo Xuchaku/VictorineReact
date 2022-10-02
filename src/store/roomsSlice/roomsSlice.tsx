@@ -8,9 +8,11 @@ const roomsSlice = createSlice({
   initialState,
   reducers: {
     setRoom(state, action: PayloadAction<GameSettings>) {
+      console.log("111");
       state.activeRooms = [...state.activeRooms, action.payload];
     },
     setRooms(state, action: PayloadAction<GameSettings[]>) {
+      console.log("222");
       state.activeRooms = [...action.payload];
     },
   },

@@ -5,6 +5,7 @@ import playersReducer from "./playersSlice/playersSlice";
 import gameReducer from "./gameSlice/gameSlice";
 import roomsReducer from "./roomsSlice/roomsSlice";
 import questionsReducer from "./questionsSlice/questionsSlice";
+import scoreReducer from "./scoreSlice/scoreSlice";
 const store = configureStore({
   reducer: {
     user: userReducer,
@@ -12,6 +13,7 @@ const store = configureStore({
     game: gameReducer,
     rooms: roomsReducer,
     questions: questionsReducer,
+    score: scoreReducer,
   },
 });
 export default store;

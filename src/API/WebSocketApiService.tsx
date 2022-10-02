@@ -9,6 +9,8 @@ import {
   TYPE_WEBSOCKET_GET_DATA_PLAY,
   TYPE_WEBSOCKET_CHECK_ANSWER,
   TYPE_WEBSOCKET_NEXT_QUESTION,
+  TYPE_WEBSOCKET_WRONG_ANSWER,
+  TYPE_WEBSOCKET_GET_RESULT,
 } from "../constants/constants";
 import UserSocket from "../types/UserSocket/UserSocket";
 import store from "../store/store";
@@ -35,6 +37,8 @@ import {
 } from "../store/questionsSlice/questionsSlice";
 import AnswerUser from "../types/AnswerUser/AnswerUser";
 import AfterAnswer from "../types/AfterAnswer/AfterAnswer";
+import { setScore, setStatus, setTime } from "../store/scoreSlice/scoreSlice";
+import { TYPE_WEBSOCKET_CORRECT_ANSWER } from "./../constants/constants";
 class WebSocketApiService {
   private socket: WebSocket | null = null;
   private createdRoom: GameSettings | null = null;
@@ -119,6 +123,29 @@ class WebSocketApiService {
           }
           break;
         }
+        case TYPE_WEBSOCKET_CORRECT_ANSWER: {
+          const { time } = data;
+          store.dispatch(setScore());
+          store.dispatch(setTime(time));
+          store.dispatch(
+            setStatus({
+              type: "correct",
+              text: `Вы успешно ответили на вопрос за ${time / 1000} секунд.`,
+            })
+          );
+          break;
+        }
+        case TYPE_WEBSOCKET_WRONG_ANSWER: {
+          store.dispatch(
+            setStatus({ type: "wrong", text: "Вы неверно ответили!" })
+          );
+          break;
+        }
+        case TYPE_WEBSOCKET_GET_RESULT: {
+          const { results } = data;
+          console.log(results);
+          break;
+        }
         default:
           break;
       }
@@ -140,14 +167,30 @@ class WebSocketApiService {
     };
     this.send(answerFromUser);
   }
+  result(idGame: string) {
+    const giveResult = {
+      type: TYPE_WEBSOCKET_GET_RESULT,
+      idGame,
+    };
+    this.send(giveResult);
+  }
+
   createRoom(settings: Settings, id: string) {
     const { user } = store.getState().user;
+
+    const selfUser: UserSocket = {
+      type: TYPE_WEBSOCKET_ROOM_CONNECT,
+      login: user.login,
+      imgUrl: user.imgUrl,
+      id,
+    };
+
     this.createdRoom = {
       ...settings,
       host: user.login,
       countReadyForGame: 0,
       imgUrl: user.imgUrl,
-      currentPlayers: [],
+      currentPlayers: [selfUser],
       countPlayer: 1,
       uniqId: id,
       type: TYPE_WEBSOCKET_CREATE_ROOM,
