@@ -1,4 +1,4 @@
-import Achive from "./Achive";
+import Achive from "../Achive/Achive";
 
 type Results = {
   user: string;

@@ -3,10 +3,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
   font-family: $font-family-header;
   padding: 10px;
   @extend %structure;
   background-color: $background-structure;
+  & > button {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
   & > div {
     display: flex;
     flex-direction: column;
@@ -15,7 +21,7 @@
       @extend %img-structure-minor;
       border: 2px solid $border-purple;
     }
-    img:first-child {
+    img.host {
       border: 3px solid $border-gold;
     }
   }

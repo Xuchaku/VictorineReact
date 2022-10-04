@@ -7,14 +7,12 @@ const initialState: {
   currentQuestionNumber: number;
   uniqId: string;
   questions: QuestionLocal[];
-  truthAnswers: string[];
 } = {
   isReady: false,
   isDone: false,
   currentQuestionNumber: 0,
   uniqId: "",
   questions: [],
-  truthAnswers: [],
 };
 const questionsSlice = createSlice({
   name: "questions",
@@ -32,9 +30,6 @@ const questionsSlice = createSlice({
     setQuestionNumber(state, action: PayloadAction<number>) {
       state.currentQuestionNumber = action.payload;
     },
-    setTruthAnswer(state, action: PayloadAction<string>) {
-      state.truthAnswers.push(action.payload);
-    },
   },
 });
 export const {
@@ -42,6 +37,5 @@ export const {
   setQuestions,
   setIdQuestions,
   setQuestionNumber,
-  setTruthAnswer,
 } = questionsSlice.actions;
 export default questionsSlice.reducer;

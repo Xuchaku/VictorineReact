@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
-
 import { useAppSelector } from "../../store/store";
 import "./User.scss";
 import Button from "../../UI/Button/Button";
+import { ReactComponent as Back } from "./../../assets/svg/back.svg";
 
 export default function User() {
   const { user, isLoading } = useAppSelector((state) => state.user);
@@ -12,6 +12,9 @@ export default function User() {
     <p>Loading...</p>
   ) : (
     <div className="UserProfile">
+      <Link to={"/"}>
+        <Back></Back>
+      </Link>
       <div className="Content">
         <img src={user.imgUrl}></img>
       </div>

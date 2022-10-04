@@ -1,6 +1,9 @@
 @import "./../../Global/style/Global.scss";
 .Button {
   outline: none;
-
+  transition: 0.2s;
   @extend %button;
+}
+.Button:active {
+  transform: scale(1.1);
 }

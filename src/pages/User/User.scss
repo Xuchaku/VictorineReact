@@ -4,11 +4,26 @@
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: center;
+  position: relative;
   width: 600px;
   padding: 20px 30px;
   margin: auto;
   background-color: $background-structure;
   @extend %structure;
+  & > a {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    svg {
+      @extend %img-structure-minor;
+      fill: $font-default-color;
+      opacity: 0.3;
+      transition: 0.3s;
+    }
+    svg:hover {
+      opacity: 1;
+    }
+  }
 }
 .Content {
   display: flex;
@@ -28,10 +43,9 @@
     font-family: $font-family-major;
   }
   a {
-    text-decoration: none;
-    font-size: $font-size-header;
     font-family: $font-family-header;
-    color: $font-active-color;
+    text-decoration: none;
+    color: white;
   }
 }
 .Actions {

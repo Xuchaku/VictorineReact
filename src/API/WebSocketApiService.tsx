@@ -37,8 +37,14 @@ import {
 } from "../store/questionsSlice/questionsSlice";
 import AnswerUser from "../types/AnswerUser/AnswerUser";
 import AfterAnswer from "../types/AfterAnswer/AfterAnswer";
-import { setScore, setStatus, setTime } from "../store/scoreSlice/scoreSlice";
+import {
+  setResults,
+  setScore,
+  setStatus,
+  setTime,
+} from "../store/scoreSlice/scoreSlice";
 import { TYPE_WEBSOCKET_CORRECT_ANSWER } from "./../constants/constants";
+import Results from "../types/Results/Results";
 class WebSocketApiService {
   private socket: WebSocket | null = null;
   private createdRoom: GameSettings | null = null;
@@ -142,8 +148,8 @@ class WebSocketApiService {
           break;
         }
         case TYPE_WEBSOCKET_GET_RESULT: {
-          const { results } = data;
-          console.log(results);
+          const results = data.results as Results[];
+          store.dispatch(setResults(results));
           break;
         }
         default:

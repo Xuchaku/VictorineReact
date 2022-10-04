@@ -1,13 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import Results from "../../types/Results/Results";
 import StatusAnswer from "../../types/StatusAnswer/StatusAnswer";
 const initialState: {
   totalScore: number;
   currentTime: number;
   status: StatusAnswer;
+  results: Results[];
 } = {
   totalScore: 0,
   currentTime: 0,
   status: { type: "", text: "" },
+  results: [],
 };
 
 const scoreSlice = createSlice({
@@ -23,7 +26,10 @@ const scoreSlice = createSlice({
     setStatus(state, action: PayloadAction<StatusAnswer>) {
       state.status = action.payload;
     },
+    setResults(state, action: PayloadAction<Results[]>) {
+      state.results = action.payload;
+    },
   },
 });
-export const { setScore, setTime, setStatus } = scoreSlice.actions;
+export const { setScore, setTime, setStatus, setResults } = scoreSlice.actions;
 export default scoreSlice.reducer;

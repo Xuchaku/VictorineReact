@@ -10,6 +10,7 @@ import Input from "../../UI/Input/Input";
 import TextArea from "../../UI/TextArea/TextArea";
 import { readFileAsync } from "../../utils";
 import "./EditUser.scss";
+import back from "./../../assets/svg/back.svg";
 
 const EditUser = () => {
   const { isLoading } = useAppSelector((state) => state.user);

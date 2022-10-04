@@ -82,15 +82,28 @@ const Lobby = () => {
 
   return (
     <div className="Lobby">
+      {lobby?.host == user.login ? (
+        <Button background="red" onClick={exitLobbyHandler}>
+          Закрыть лобби
+        </Button>
+      ) : (
+        <Button background="red" onClick={leaveLobbyHandler}>
+          Покинуть лобби
+        </Button>
+      )}
       <h2>Вы выбрали категорию {lobby?.categorie}</h2>
-      <img src="" />
+      <img src={lobby?.imgUrl} />
       <div>
         <p>Ожидаем игроков</p>
         <Loader></Loader>
         <div>
-          {<img src={lobby?.imgUrl}></img>}
           {lobby?.currentPlayers.map((player) => {
-            return <img src={player.imgUrl}></img>;
+            return (
+              <img
+                src={player.imgUrl}
+                className={player.login == lobby?.host ? "host" : undefined}
+              ></img>
+            );
           })}
         </div>
         <p>
@@ -103,18 +116,9 @@ const Lobby = () => {
       </div>
       <div>
         <p>
-          <span>{lobby?.mode}</span>
+          <span>{lobby?.mode == "public" ? "Публичный" : "Приватный"}</span>
         </p>
         <Button onClick={readyGameHandler}>Готов</Button>
-        {lobby?.host == user.login ? (
-          <Button background="red" onClick={exitLobbyHandler}>
-            Закрыть лобби
-          </Button>
-        ) : (
-          <Button background="red" onClick={leaveLobbyHandler}>
-            Покинуть лобби
-          </Button>
-        )}
       </div>
     </div>
   );

@@ -70,6 +70,7 @@ const Game = () => {
       if (currentDate) {
         const time = new Date().getTime() - currentDate.getTime();
         socket?.answer(uniqId, currentQuestion.id, answer, time);
+        setAnswer("");
       }
     }
   }

@@ -14,6 +14,10 @@ import {
   TYPE_WEBSOCKET_ROOM_EXIT,
   TYPE_WEBSOCKET_ROOM_LEAVE,
   TYPE_WEBSOCKET_ROOM_READY,
+  TYPE_WEBSOCKET_NEXT_QUESTION,
+  TYPE_WEBSOCKET_CORRECT_ANSWER,
+  TYPE_WEBSOCKET_WRONG_ANSWER,
+  TYPE_WEBSOCKET_GET_RESULT,
 } from "../constants/constants";
 import Game from "../types/Game";
 import AnswerUser from "../types/AnswerUser";
@@ -31,7 +35,6 @@ export class WebSocketServer {
         switch (fromUser.type) {
           case TYPE_WEBSOCKET_CONNECT: {
             this.broadcastMessageExcludeOne(fromUser as UserSocket, ws);
-            //this.clearRoomByHost(fromUser as UserSocket);
             break;
           }
           case TYPE_WEBSOCKET_ONLINE:
@@ -85,9 +88,13 @@ export class WebSocketServer {
               return room.uniqId == user.id;
             });
             if (purposeRoom) {
-              if (purposeRoom.countPlayer == purposeRoom.countReadyForGame) {
+              if (
+                purposeRoom.countPlayer - 1 ==
+                purposeRoom.countReadyForGame
+              ) {
                 purposeRoom.countReadyForGame -= 1;
               }
+
               purposeRoom.countPlayer -= 1;
               purposeRoom.currentPlayers = purposeRoom.currentPlayers.filter(
                 (player) => {
@@ -151,17 +158,24 @@ export class WebSocketServer {
                   this.broadcastMessage({
                     gameId: purposeGame.uniqId,
                     nextQuestion: purposeQuestionIndex + 1,
-                    type: "next/question",
+                    type: TYPE_WEBSOCKET_NEXT_QUESTION,
                   });
-                  ws.send(JSON.stringify({ type: "correct/answer", time }));
+                  ws.send(
+                    JSON.stringify({
+                      type: TYPE_WEBSOCKET_CORRECT_ANSWER,
+                      time,
+                    })
+                  );
                 } else {
-                  ws.send(JSON.stringify({ type: "wrong/answer" }));
+                  ws.send(
+                    JSON.stringify({ type: TYPE_WEBSOCKET_WRONG_ANSWER })
+                  );
                 }
               }
             }
             break;
           }
-          case "result/game": {
+          case TYPE_WEBSOCKET_GET_RESULT: {
             const { idGame } = fromUser;
             const purposeGame = this.games.find((game) => {
               return game.uniqId == idGame;
@@ -169,7 +183,7 @@ export class WebSocketServer {
             if (purposeGame) {
               ws.send(
                 JSON.stringify({
-                  type: "result/game",
+                  type: TYPE_WEBSOCKET_GET_RESULT,
                   results: purposeGame.results,
                 })
               );
@@ -179,6 +193,9 @@ export class WebSocketServer {
           case TYPE_WEBSOCKET_ROOM_READY: {
             const user = fromUser as UserSocket;
             const purposeRoom = this.rooms.find((room) => {
+              return room.uniqId == user.id;
+            });
+            const purposeRoomIndex = this.rooms.findIndex((room) => {
               return room.uniqId == user.id;
             });
             if (purposeRoom) {
@@ -217,6 +234,13 @@ export class WebSocketServer {
                   id,
                 });
               }
+
+              this.rooms.splice(purposeRoomIndex, 1);
+
+              // this.broadcastMessage({
+              //   rooms: this.rooms,
+              //   type: TYPE_WEBSOCKET_GET_ROOMS,
+              // });
 
               this.broadcastMessage({
                 dataForGame: dataForUser,
