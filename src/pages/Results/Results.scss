@@ -3,6 +3,28 @@
   @extend %structure;
   background-color: $background-structure;
   display: flex;
+  font-family: $font-family-simple;
+  font-size: $font-size-major;
   flex-direction: column;
   align-items: center;
+  min-height: 600px;
+}
+.Results-list {
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  .Results-list-item {
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    div {
+      width: 30px;
+      transition: 0.3s;
+      border-radius: 6px;
+    }
+    span {
+    }
+  }
 }

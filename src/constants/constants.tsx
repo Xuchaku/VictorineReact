@@ -44,3 +44,4 @@ export const TYPE_WEBSOCKET_NEXT_QUESTION = "next/question";
 export const TYPE_WEBSOCKET_CORRECT_ANSWER = "correct/answer";
 export const TYPE_WEBSOCKET_WRONG_ANSWER = "wrong/answer";
 export const TYPE_WEBSOCKET_GET_RESULT = "result/game";
+export const TYPE_WEBSOCKET_END_GAME = "end/game";

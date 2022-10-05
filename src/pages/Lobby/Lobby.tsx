@@ -37,7 +37,6 @@ const Lobby = () => {
     }
   }
   useEffect(() => {
-    console.log("!!!!", activeRooms);
     const findRoom = activeRooms.find((room) => {
       return room.uniqId == id;
     });

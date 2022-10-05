@@ -18,6 +18,7 @@ import {
   TYPE_WEBSOCKET_CORRECT_ANSWER,
   TYPE_WEBSOCKET_WRONG_ANSWER,
   TYPE_WEBSOCKET_GET_RESULT,
+  TYPE_WEBSOCKET_END_GAME,
 } from "../constants/constants";
 import Game from "../types/Game";
 import AnswerUser from "../types/AnswerUser";
@@ -287,6 +288,16 @@ export class WebSocketServer {
               }
             }
 
+            break;
+          }
+          case TYPE_WEBSOCKET_END_GAME: {
+            const { idGame } = fromUser;
+            const purposeGameIndex = this.games.findIndex((game) => {
+              return game.uniqId == idGame;
+            });
+            if (purposeGameIndex >= 0) {
+              this.games.splice(purposeGameIndex, 1);
+            }
             break;
           }
         }

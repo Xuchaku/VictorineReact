@@ -11,6 +11,7 @@ import {
   TYPE_WEBSOCKET_NEXT_QUESTION,
   TYPE_WEBSOCKET_WRONG_ANSWER,
   TYPE_WEBSOCKET_GET_RESULT,
+  TYPE_WEBSOCKET_END_GAME,
 } from "../constants/constants";
 import UserSocket from "../types/UserSocket/UserSocket";
 import store from "../store/store";
@@ -241,6 +242,13 @@ class WebSocketApiService {
       this.send(exitLobby);
       this.createdRoom = null;
     }
+  }
+  endGame(idGame: string) {
+    const messageEndGame = {
+      type: TYPE_WEBSOCKET_END_GAME,
+      idGame,
+    };
+    this.send(messageEndGame);
   }
   send(data: any) {
     this.socket?.send(JSON.stringify(data));
